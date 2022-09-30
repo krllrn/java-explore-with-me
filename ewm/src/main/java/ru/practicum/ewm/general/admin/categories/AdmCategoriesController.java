@@ -19,9 +19,7 @@ public class AdmCategoriesController {
         this.admCategoriesService = admCategoriesService;
     }
 
-    /*
-    Обратите внимание: имя категории должно быть уникальным
-     */
+
     @PatchMapping
     public CategoryDto editCategory(@RequestBody CategoryDto categoryDto) {
         log.info("Edit category with name: {}", categoryDto.getName());
@@ -34,9 +32,7 @@ public class AdmCategoriesController {
         return admCategoriesService.addCategory(newCategoryDto);
     }
 
-    /*
-    Обратите внимание: с категорией не должно быть связано ни одного события.
-     */
+
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCategory(@PathVariable Long catId){

@@ -29,11 +29,11 @@ public class Event {
     private String annotation;
 
     @ToString.Exclude
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private List<Category> category;
+    private Category category;
 
-    @Column(name = "confirmed_requests")
+    @Transient
     private int confirmedRequests;
 
     @Column(name = "created_on")
@@ -50,9 +50,7 @@ public class Event {
     @JoinColumn(name = "initiator", nullable = false)
     private User initiator;
 
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "location_id", nullable = false)
+    @Column(name = "location", nullable = false)
     private Location location;
 
     @Column(name = "paid", nullable = false)
@@ -64,7 +62,7 @@ public class Event {
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
 
-    @Column(name = "request_moderation")
+    @Transient
     private Boolean requestModeration;
 
     @Column(name = "state")

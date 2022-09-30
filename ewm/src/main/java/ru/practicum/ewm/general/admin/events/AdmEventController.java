@@ -22,14 +22,14 @@ public class AdmEventController {
     }
 
     @GetMapping
-    public List<EventFullDto> getEvents(@RequestParam(value = "users", required = false) List<Integer> users,
-                                        @RequestParam(value = "states", required = false) List<String> states,
-                                        @RequestParam(value = "categories", required = false) List<Integer> categories,
+    public List<EventFullDto> getEvents(@RequestParam(value = "users", required = false) String users,
+                                        @RequestParam(value = "states", required = false) String states,
+                                        @RequestParam(value = "categories", required = false) String categories,
                                         @RequestParam(value = "rangeStart", required = false) String rangeStart,
                                         @RequestParam(value = "rangeEnd", required = false) String rangeEnd,
-                                        @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
-                                        @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        Map<String, Object> parameters = Map.of(
+                                        @RequestParam(value = "from", required = false, defaultValue = "0") String from,
+                                        @RequestParam(value = "size", required = false, defaultValue = "10") String size) {
+        Map<String, String> parameters = Map.of(
                 "users", users,
                 "states", states,
                 "categories", categories,

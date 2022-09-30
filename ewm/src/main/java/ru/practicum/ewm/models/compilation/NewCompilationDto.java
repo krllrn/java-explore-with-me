@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.SortedSet;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import java.util.List;
 @ToString
 public class NewCompilationDto {
 
-    private List<Long> events;
+    private SortedSet<Long> events;
 
     private Boolean pinned;
 
