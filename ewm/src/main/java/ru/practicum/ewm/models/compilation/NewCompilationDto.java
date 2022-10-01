@@ -1,6 +1,7 @@
 package ru.practicum.ewm.models.compilation;
 
 import lombok.*;
+import ru.practicum.ewm.models.event.Event;
 import ru.practicum.ewm.models.event.EventShortDto;
 
 import javax.validation.constraints.NotBlank;
@@ -17,7 +18,7 @@ import java.util.SortedSet;
 @ToString
 public class NewCompilationDto {
 
-    private SortedSet<Long> events;
+    private List<Long> events;
 
     private Boolean pinned;
 

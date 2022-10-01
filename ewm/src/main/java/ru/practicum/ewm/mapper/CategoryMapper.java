@@ -10,10 +10,13 @@ import ru.practicum.ewm.repositories.CategoryRepository;
 
 @Component
 public class CategoryMapper {
-    private final ModelMapper modelMapper;
-    private final CategoryRepository categoryRepository;
 
     @Autowired
+    private final ModelMapper modelMapper;
+    @Autowired
+    private final CategoryRepository categoryRepository;
+
+
     public CategoryMapper(ModelMapper modelMapper, CategoryRepository categoryRepository) {
         this.modelMapper = modelMapper;
         this.categoryRepository = categoryRepository;

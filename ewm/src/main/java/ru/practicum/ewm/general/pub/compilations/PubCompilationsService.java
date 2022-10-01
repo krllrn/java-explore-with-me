@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface PubCompilationsService {
-    List<CompilationDto> getCompilations(Map<String, Object> parameters);
+    List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size);
 
     CompilationDto getCompById(Long compId);
 }

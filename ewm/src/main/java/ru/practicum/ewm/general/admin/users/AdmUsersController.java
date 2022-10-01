@@ -27,16 +27,12 @@ public class AdmUsersController {
     либо о конкретных (учитываются указанные идентификаторы)
      */
     @GetMapping
-    public List<UserDto> getUsers(@RequestParam(value = "ids", required = false) List<Integer> ids,
+    public List<UserDto> getUsers(@RequestParam(value = "ids", required = false) List<Long> ids,
                                   @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
                                   @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        Map<String, Object> parameters = Map.of(
-                "ids", ids,
-                "from", from,
-                "size", size
-        );
-        log.info("Get users with parameters: {}", parameters.values());
-        return admUsersService.getUsers(parameters);
+
+        log.info("Get users.");
+        return admUsersService.getUsers(ids, from, size);
     }
 
     @PostMapping

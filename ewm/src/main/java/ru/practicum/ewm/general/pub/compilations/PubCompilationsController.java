@@ -29,8 +29,8 @@ public class PubCompilationsController {
                 "from", from,
                 "size", size
         );
-        log.info("Get comps with parameters: {}", parameters.values());
-        return pubCompilationsService.getCompilations(parameters);
+        log.info("Get comps with parameters: {}, {}, {}", pinned, from, size);
+        return pubCompilationsService.getCompilations(pinned, from, size);
     }
 
     @GetMapping("/{compId}")

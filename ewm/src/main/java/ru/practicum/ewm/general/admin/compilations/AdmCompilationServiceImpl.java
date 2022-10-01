@@ -3,6 +3,8 @@ package ru.practicum.ewm.general.admin.compilations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.BadRequestHandler;
+import ru.practicum.ewm.exceptions.ForbiddenHandler;
+import ru.practicum.ewm.exceptions.NotFoundHandler;
 import ru.practicum.ewm.mapper.CompilationMapper;
 import ru.practicum.ewm.models.compilation.Compilation;
 import ru.practicum.ewm.models.compilation.CompilationDto;
@@ -30,7 +32,10 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
     @Override
     public void deleteCompilation(Long compId) {
         if (compId == null) {
-            throw new BadRequestHandler("Compilation ID is null.");
+            throw new ForbiddenHandler("Compilation ID is null.");
+        }
+        if (compilationRepository.findByIdIs(compId) == null) {
+            throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
         }
         compilationRepository.deleteById(compId);
     }
@@ -38,9 +43,12 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
     @Override
     public void deleteEventFromCompilation(Long compId, Long eventId) {
         if (compId == null || eventId == null) {
-            throw new BadRequestHandler("Compilation or event ID is null.");
+            throw new ForbiddenHandler("Compilation or event ID is null.");
         }
-        Compilation compilation = compilationRepository.getCompById(compId);
+        if (compilationRepository.findByIdIs(compId) == null) {
+            throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
+        }
+        Compilation compilation = compilationRepository.findByIdIs(compId);
         compilation.getEvents().remove(eventId);
         compilationRepository.save(compilation);
     }
@@ -48,9 +56,12 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
     @Override
     public void addEventToCompilation(Long compId, Long eventId) {
         if (compId == null || eventId == null) {
-            throw new BadRequestHandler("Compilation or event ID is null.");
+            throw new ForbiddenHandler("Compilation or event ID is null.");
         }
-        Compilation compilation = compilationRepository.getCompById(compId);
+        if (compilationRepository.findByIdIs(compId) == null) {
+            throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
+        }
+        Compilation compilation = compilationRepository.findByIdIs(compId);
         compilation.getEvents().add(eventId);
         compilationRepository.save(compilation);
     }
@@ -58,9 +69,12 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
     @Override
     public void unpinCompilation(Long compId) {
         if (compId == null) {
-            throw new BadRequestHandler("Compilation ID is null.");
+            throw new ForbiddenHandler("Compilation ID is null.");
         }
-        Compilation compilation = compilationRepository.getCompById(compId);
+        if (compilationRepository.findByIdIs(compId) == null) {
+            throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
+        }
+        Compilation compilation = compilationRepository.findByIdIs(compId);
         compilation.setPinned(false);
         compilationRepository.save(compilation);
     }
@@ -68,9 +82,12 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
     @Override
     public void pinCompilation(Long compId) {
         if (compId == null) {
-            throw new BadRequestHandler("Compilation ID is null.");
+            throw new ForbiddenHandler("Compilation ID is null.");
         }
-        Compilation compilation = compilationRepository.getCompById(compId);
+        if (compilationRepository.findByIdIs(compId) == null) {
+            throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
+        }
+        Compilation compilation = compilationRepository.findByIdIs(compId);
         compilation.setPinned(true);
         compilationRepository.save(compilation);
     }

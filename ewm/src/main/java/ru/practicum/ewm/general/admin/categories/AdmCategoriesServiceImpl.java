@@ -3,7 +3,6 @@ package ru.practicum.ewm.general.admin.categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.ConflictHandler;
-import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.mapper.CategoryMapper;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.category.CategoryDto;

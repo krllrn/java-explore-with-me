@@ -1,6 +1,7 @@
 package ru.practicum.ewm.models.compilation;
 
 import lombok.*;
+import ru.practicum.ewm.models.event.Event;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,7 +21,8 @@ public class Compilation {
     private Long id;
 
     @Column(name = "events")
-    private SortedSet<Long> events;
+    @ElementCollection
+    private List<Event> events;
 
     @Column(name = "pinned")
     private Boolean pinned;

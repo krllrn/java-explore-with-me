@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface AdmUsersService {
-    List<UserDto> getUsers(Map<String, Object> parameters);
+    List<UserDto> getUsers(List<Long> ids, Integer from, Integer size);
 
     UserDto addUser(NewUserRequest newUserRequest);
 

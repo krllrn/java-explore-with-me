@@ -6,4 +6,5 @@ import ru.practicum.ewm.models.user.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByIdIs(Long userId);
 }

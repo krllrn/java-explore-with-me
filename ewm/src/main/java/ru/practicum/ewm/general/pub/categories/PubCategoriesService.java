@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface PubCategoriesService {
-    List<CategoryDto> getCategories(Map<String, Object> parameters);
+    List<CategoryDto> getCategories(Integer from, Integer size);
 
     CategoryDto getCategoryById(Long catId);
 }

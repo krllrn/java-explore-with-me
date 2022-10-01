@@ -2,29 +2,55 @@ package ru.practicum.ewm.general.pub.compilations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.exceptions.ForbiddenHandler;
+import ru.practicum.ewm.exceptions.NotFoundHandler;
+import ru.practicum.ewm.mapper.CompilationMapper;
 import ru.practicum.ewm.models.compilation.CompilationDto;
 import ru.practicum.ewm.repositories.CompilationRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PubCompilationsServiceImpl implements PubCompilationsService {
 
     private final CompilationRepository compilationRepository;
+    private final CompilationMapper compilationMapper;
 
     @Autowired
-    public PubCompilationsServiceImpl(CompilationRepository compilationRepository) {
+    public PubCompilationsServiceImpl(CompilationRepository compilationRepository, CompilationMapper compilationMapper) {
         this.compilationRepository = compilationRepository;
+        this.compilationMapper = compilationMapper;
     }
 
     @Override
-    public List<CompilationDto> getCompilations(Map<String, Object> parameters) {
-        return null;
+    public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
+        List<CompilationDto> compilationList = new ArrayList<>();
+        if (pinned != null) {
+            compilationList = compilationRepository.findByPinned(pinned).stream()
+                    .map(compilationMapper::compEntityToDto)
+                    .skip(from)
+                    .limit(size)
+                    .collect(Collectors.toList());
+        } else {
+            compilationList = compilationRepository.findAll().stream()
+                    .map(compilationMapper::compEntityToDto)
+                    .skip(from)
+                    .limit(size)
+                    .collect(Collectors.toList());
+        }
+        return compilationList;
     }
 
     @Override
     public CompilationDto getCompById(Long compId) {
-        return null;
+        if (compId == null) {
+            throw new ForbiddenHandler("Compilation ID can't be NULL.");
+        }
+        if (compilationRepository.findByIdIs(compId) == null) {
+            throw new NotFoundHandler("Compilation not found.");
+        }
+        return compilationMapper.compEntityToDto(compilationRepository.findByIdIs(compId));
     }
 }

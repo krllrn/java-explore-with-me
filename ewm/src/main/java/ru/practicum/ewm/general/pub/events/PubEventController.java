@@ -31,15 +31,15 @@ public class PubEventController {
 
     @GetMapping
     public List<EventShortDto> getEvents(@RequestParam(value = "text", required = false) String text,
-                                         @RequestParam(value = "categories", required = false) List<Integer> categories,
-                                         @RequestParam(value = "paid", required = false) Boolean paid,
+                                         @RequestParam(value = "categories", required = false) String categories,
+                                         @RequestParam(value = "paid", required = false) String paid,
                                          @RequestParam(value = "rangeStart", required = false) String rangeStart,
                                          @RequestParam(value = "rangeEnd", required = false) String rangeEnd,
-                                         @RequestParam(value = "onlyAvailable", required = false, defaultValue = "false") Boolean onlyAvailable,
+                                         @RequestParam(value = "onlyAvailable", required = false, defaultValue = "false") String onlyAvailable,
                                          @RequestParam(value = "sort", required = false) String sort,
-                                         @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
-                                         @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        Map<String, Object> parameters = Map.of(
+                                         @RequestParam(value = "from", required = false, defaultValue = "0") String from,
+                                         @RequestParam(value = "size", required = false, defaultValue = "10") String size) {
+        Map<String, String> parameters = Map.of(
                 "text", text,
                 "categories", categories,
                 "paid", paid,

@@ -2,6 +2,7 @@ package ru.practicum.ewm.models.event;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Formula;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.location.Location;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @ToString
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event implements Comparable<Event> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +35,7 @@ public class Event {
     private Category category;
 
     @Transient
+    @Formula(value = "SELECT COUNT(*) FROM requests WHERE requests.event_id = id")
     private int confirmedRequests;
 
     @Column(name = "created_on")
@@ -50,8 +52,9 @@ public class Event {
     @JoinColumn(name = "initiator", nullable = false)
     private User initiator;
 
-    @Column(name = "location", nullable = false)
-    private Location location;
+    @JoinColumn(name = "location", nullable = false)
+    @ElementCollection
+    private List<Float> location;
 
     @Column(name = "paid", nullable = false)
     private Boolean paid;
@@ -91,5 +94,18 @@ public class Event {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    @Override
+    public int compareTo(Event o) {
+        if (annotation.equals(o.annotation) && title.equals(o.title)) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 }

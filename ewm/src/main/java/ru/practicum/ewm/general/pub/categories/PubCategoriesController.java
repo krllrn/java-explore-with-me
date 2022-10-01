@@ -23,12 +23,9 @@ public class PubCategoriesController {
     @GetMapping
     public List<CategoryDto> getCategories(@RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
                                            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
-        Map<String, Object> parameters = Map.of(
-                "from", from,
-                "size", size
-        );
-        log.info("Get categories with parameters: {}", parameters.values());
-        return pubCategoriesService.getCategories(parameters);
+
+        log.info("Get categories with from&size: {}, {}", from, size);
+        return pubCategoriesService.getCategories(from, size);
     }
 
     @GetMapping("/{catId}")
