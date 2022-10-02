@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.compilation.CompilationDto;
 import ru.practicum.ewm.models.compilation.NewCompilationDto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/admin/compilations")
 @Slf4j
@@ -20,7 +22,7 @@ public class AdmCompilationController {
     }
 
     @PostMapping
-    public CompilationDto addCompilation(@RequestBody NewCompilationDto newCompilationDto) {
+    public CompilationDto addCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
         log.info("Add new compilation with title: {}", newCompilationDto.getTitle());
         return admCompilationService.addCompilation(newCompilationDto);
     }

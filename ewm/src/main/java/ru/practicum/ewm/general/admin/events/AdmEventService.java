@@ -1,5 +1,7 @@
 package ru.practicum.ewm.general.admin.events;
 
+import ru.practicum.ewm.models.comment.CommentShortDto;
+import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.event.AdminUpdateEventRequest;
 import ru.practicum.ewm.models.event.EventFullDto;
 
@@ -14,4 +16,6 @@ public interface AdmEventService {
     EventFullDto publishEvent(Long eventId);
 
     EventFullDto rejectEvent(Long eventId);
+
+    CommentDto editComment(Long eventId, Long commentId, CommentShortDto commentShortDto);
 }

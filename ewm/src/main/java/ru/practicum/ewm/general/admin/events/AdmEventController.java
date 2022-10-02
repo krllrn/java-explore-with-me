@@ -3,9 +3,12 @@ package ru.practicum.ewm.general.admin.events;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.models.comment.CommentShortDto;
+import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.event.AdminUpdateEventRequest;
 import ru.practicum.ewm.models.event.EventFullDto;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +49,7 @@ public class AdmEventController {
     Редактирование данных любого события администратором. Валидация данных не требуется.
      */
     @PutMapping("/{eventId}")
-    public EventFullDto editEvent(@PathVariable Long eventId, @RequestBody AdminUpdateEventRequest adminUpdateEventRequest) {
+    public EventFullDto editEvent(@PathVariable Long eventId, @Valid @RequestBody AdminUpdateEventRequest adminUpdateEventRequest) {
         log.info("Edit event with ID: {}", eventId);
         return admEventService.editEvent(eventId, adminUpdateEventRequest);
     }
@@ -68,5 +71,15 @@ public class AdmEventController {
     public EventFullDto rejectEvent(@PathVariable Long eventId) {
         log.info("Reject publish event with ID: {}", eventId);
         return admEventService.rejectEvent(eventId);
+    }
+
+    /*
+    редактирование конкретного комментария
+     */
+    @PatchMapping("/{eventId}/comments/{commentId}")
+    public CommentDto editComment(@PathVariable Long eventId, @PathVariable Long commentId,
+                                  @Valid @RequestBody CommentShortDto commentShortDto) {
+        log.info("Edit comment with ID: {}, from event with ID: {}", commentId, eventId);
+        return admEventService.editComment(eventId, commentId, commentShortDto);
     }
 }

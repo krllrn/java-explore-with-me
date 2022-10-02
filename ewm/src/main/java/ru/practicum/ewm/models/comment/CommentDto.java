@@ -28,6 +28,9 @@ public class CommentDto {
     @NotNull
     private String text;
 
+    @NotBlank
+    @NotEmpty
+    @NotNull
     private String authorName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")

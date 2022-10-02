@@ -2,15 +2,13 @@ package ru.practicum.ewm.general.pub.events;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
 import ru.practicum.ewm.mapper.EventMapper;
-import ru.practicum.ewm.models.event.Event;
-import ru.practicum.ewm.models.event.EventShortDto;
-import ru.practicum.ewm.models.event.EventStates;
-import ru.practicum.ewm.models.request.Request;
+import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.repositories.EventRepository;
-import ru.practicum.ewm.repositories.RequestRepository;
+import ru.practicum.ewm.statistic.Statistic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +16,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,22 +27,21 @@ public class PubEventServiceImpl implements PubEventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-    private final RequestRepository requestRepository;
+    private final Statistic statistic;
 
     @PersistenceContext
     private final EntityManager entityManagerFactory;
 
     @Autowired
-    public PubEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, RequestRepository requestRepository,
-                               EntityManager entityManagerFactory) {
+    public PubEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, Statistic statistic, EntityManager entityManagerFactory) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
-        this.requestRepository = requestRepository;
+        this.statistic = statistic;
         this.entityManagerFactory = entityManagerFactory;
     }
 
-    @Override
-    public List<EventShortDto> getEvents(Map<String, String> parameters) {
+    // Need check if it works
+    public List<EventShortDto> getEventsPredicate(Map<String, String> parameters, HttpServletRequest request) {
         CriteriaBuilder criteriaBuilder = entityManagerFactory.getCriteriaBuilder();
         CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
         Root<Event> root = criteriaQuery.from(Event.class);
@@ -94,7 +93,8 @@ public class PubEventServiceImpl implements PubEventService {
                 .collect(Collectors.toList());
     }
 
-    public List<EventShortDto> getEventsAnother(Map<String, String> parameters) {
+    @Override
+    public List<EventShortDto> getEvents(Map<String, String> parameters, HttpServletRequest request) {
         Set<Event> eventList = new TreeSet<>();
         if (parameters.get("text") != null) {
             eventList.addAll(eventRepository.findAll().stream()
@@ -145,6 +145,11 @@ public class PubEventServiceImpl implements PubEventService {
                         .collect(Collectors.toList()));
             }
         }
+        Hit hit = new Hit("Get events", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
+        statistic.hit(hit);
+        for (Event e : eventList) {
+            updateViews(e.getId());
+        }
         return eventList.stream()
                 .filter(e -> e.getState().equals(EventStates.PUBLISHED))
                 .skip(Long.parseLong(parameters.get("from")))
@@ -154,13 +159,22 @@ public class PubEventServiceImpl implements PubEventService {
     }
 
     @Override
-    public EventShortDto getEventById(Long id) {
-        if (id == null) {
-            throw new ForbiddenHandler("Event ID can't be NULL");
+    public EventShortDto getEventById(Long eventId, HttpServletRequest request) {
+        if (eventId == null) {
+            throw new BadRequestHandler("Event ID can't be NULL");
         }
-        if (eventRepository.findByIdIs(id) == null) {
+        if (eventRepository.findByIdIs(eventId) == null) {
             throw new NotFoundHandler("Event not found.");
         }
-        return eventMapper.entityToShort(eventRepository.findByIdIs(id));
+        Hit hit = new Hit("Get event by id", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
+        statistic.hit(hit);
+        updateViews(eventId);
+        return eventMapper.entityToShort(eventRepository.findByIdIs(eventId));
+    }
+
+    private void updateViews(Long eventId) {
+        Event event = eventRepository.findByIdIs(eventId);
+        event.setViews(event.getViews() + 1);
+        eventRepository.save(event);
     }
 }

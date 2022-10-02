@@ -25,13 +25,6 @@ public class RegRequestController {
         return regRequestService.getUserRequests(userId);
     }
 
-    /*
-    нельзя добавить повторный запрос
-    инициатор события не может добавить запрос на участие в своём событии
-    нельзя участвовать в неопубликованном событии
-    если у события достигнут лимит запросов на участие - необходимо вернуть ошибку
-    если для события отключена пре-модерация запросов на участие, то запрос должен автоматически перейти в состояние подтвержденного
-     */
     @PostMapping("/{userId}/requests")
     public RequestDto addRequestCurrentUser(@PathVariable Long userId, @RequestParam Long eventId) {
         log.info("Add request to event with ID: {}", eventId);

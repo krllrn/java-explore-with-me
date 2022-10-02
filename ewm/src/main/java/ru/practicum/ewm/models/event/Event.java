@@ -65,7 +65,7 @@ public class Event implements Comparable<Event> {
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
 
-    @Transient
+    @Column(name = "request_moderation")
     private Boolean requestModeration;
 
     @Column(name = "state")
@@ -78,10 +78,9 @@ public class Event implements Comparable<Event> {
     @Column(name = "views")
     private Long views;
 
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
+    @Transient
+    @Formula(value = "SELECT * FROM comments WHERE comments.event_id = id")
+    private List<Comment> comments;
 
     @Override
     public boolean equals(Object o) {
@@ -94,10 +93,6 @@ public class Event implements Comparable<Event> {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    public Long getViews() {
-        return views;
     }
 
     @Override

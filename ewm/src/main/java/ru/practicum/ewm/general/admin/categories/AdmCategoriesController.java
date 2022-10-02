@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.category.CategoryDto;
 import ru.practicum.ewm.models.category.NewCategoryDto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/admin/categories")
 @Slf4j
@@ -21,13 +23,13 @@ public class AdmCategoriesController {
 
 
     @PatchMapping
-    public CategoryDto editCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto editCategory(@Valid @RequestBody CategoryDto categoryDto) {
         log.info("Edit category with name: {}", categoryDto.getName());
         return admCategoriesService.editCategory(categoryDto);
     }
 
     @PostMapping
-    public CategoryDto addCategory(@RequestBody NewCategoryDto newCategoryDto) {
+    public CategoryDto addCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.info("Add new category with name: {}", newCategoryDto.getName());
         return admCategoriesService.addCategory(newCategoryDto);
     }

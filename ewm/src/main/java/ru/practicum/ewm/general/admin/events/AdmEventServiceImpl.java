@@ -5,11 +5,16 @@ import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
+import ru.practicum.ewm.mapper.CommentMapper;
 import ru.practicum.ewm.mapper.EventMapper;
+import ru.practicum.ewm.models.comment.CommentShortDto;
+import ru.practicum.ewm.models.comment.Comment;
+import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.event.AdminUpdateEventRequest;
 import ru.practicum.ewm.models.event.Event;
 import ru.practicum.ewm.models.event.EventFullDto;
 import ru.practicum.ewm.models.event.EventStates;
+import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 
 import javax.persistence.EntityManager;
@@ -30,15 +35,29 @@ public class AdmEventServiceImpl implements AdmEventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
+    private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
     @PersistenceContext
     private final EntityManager entityManagerFactory;
 
     @Autowired
-    public AdmEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, EntityManager entityManager) {
+    public AdmEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, CommentRepository commentRepository,
+                               CommentMapper commentMapper, EntityManager entityManager) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
+        this.commentRepository = commentRepository;
+        this.commentMapper = commentMapper;
         this.entityManagerFactory = entityManager;
+    }
+
+    private void checkEvent(Long eventId) {
+        if (eventId == null) {
+            throw new BadRequestHandler("Event ID can't be NULL.");
+        }
+        if (eventRepository.findByIdIs(eventId) == null) {
+            throw new NotFoundHandler("Event not found.");
+        }
     }
 
     @Override
@@ -87,24 +106,21 @@ public class AdmEventServiceImpl implements AdmEventService {
 
     @Override
     public EventFullDto editEvent(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest) {
-        if (eventRepository.findByIdIs(eventId) == null) {
-            throw new NotFoundHandler("Event not found.");
-        }
+        checkEvent(eventId);
         Event eventToUpdate = eventRepository.findByIdIs(eventId);
 
         return eventMapper.entityToFullDto(eventRepository.save(
                 eventMapper.updateToEntity(eventToUpdate, adminUpdateEventRequest))
         );
     }
+
     /*
     дата начала события должна быть не ранее чем за час от даты публикации.
     событие должно быть в состоянии ожидания публикации
      */
     @Override
     public EventFullDto publishEvent(Long eventId) {
-        if (eventRepository.findByIdIs(eventId) == null) {
-            throw new NotFoundHandler("Event not found.");
-        }
+        checkEvent(eventId);
         Event eventToUpdate = eventRepository.findByIdIs(eventId);
         if (eventToUpdate.getEventDate().minusHours(1).isBefore(LocalDateTime.now())) {
             throw new ForbiddenHandler("Event start is before 1 hour of publish date.");
@@ -113,6 +129,7 @@ public class AdmEventServiceImpl implements AdmEventService {
             throw new ForbiddenHandler("Event isn't PENDING state.");
         }
         eventToUpdate.setState(EventStates.PUBLISHED);
+        eventToUpdate.setPublishedOn(LocalDateTime.now());
         return eventMapper.entityToFullDto(eventRepository.save(eventToUpdate));
     }
 
@@ -121,14 +138,29 @@ public class AdmEventServiceImpl implements AdmEventService {
      */
     @Override
     public EventFullDto rejectEvent(Long eventId) {
-        if (eventRepository.findByIdIs(eventId) == null) {
-            throw new NotFoundHandler("Event not found.");
-        }
+        checkEvent(eventId);
         Event eventToUpdate = eventRepository.findByIdIs(eventId);
         if (eventToUpdate.getState().equals(EventStates.PUBLISHED)) {
             throw new ForbiddenHandler("Event can't be published again.");
         }
         eventToUpdate.setState(EventStates.CANCELED);
         return eventMapper.entityToFullDto(eventRepository.save(eventToUpdate));
+    }
+
+    @Override
+    public CommentDto editComment(Long eventId, Long commentId, CommentShortDto commentShortDto) {
+        checkEvent(eventId);
+        if (commentId == null) {
+            throw new BadRequestHandler("Comment ID can't be NULL.");
+        }
+        if (commentRepository.findByIdIs(commentId) == null) {
+            throw new NotFoundHandler("Comment not found.");
+        }
+        if (!commentRepository.findByIdIs(commentId).getEventId().equals(eventId)) {
+            throw new ForbiddenHandler("Incorrect comment and event ID's.");
+        }
+        Comment comment = commentRepository.findByIdIs(commentId);
+        comment.setText(commentShortDto.getText());
+        return commentMapper.entityToDto(commentRepository.save(comment));
     }
 }

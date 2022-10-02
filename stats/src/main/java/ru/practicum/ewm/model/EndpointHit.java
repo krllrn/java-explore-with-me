@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
         typeClass = PostgreSQLInetType.class,
         defaultForType = Inet.class)
 @Table(name = "statistic")
-public class EndpointHit {
+public class EndpointHit implements Comparable<EndpointHit> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +36,13 @@ public class EndpointHit {
 
     @Column(name = "time_stamp")
     private LocalDateTime timestamp;
+
+    @Override
+    public int compareTo(EndpointHit o) {
+        if (app.equals(o.app) && uri.equals(o.uri) && ip.equals(o.ip)) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }

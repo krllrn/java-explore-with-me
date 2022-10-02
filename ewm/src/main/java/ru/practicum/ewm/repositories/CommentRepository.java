@@ -6,4 +6,5 @@ import ru.practicum.ewm.models.comment.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+    Comment findByIdIs(Long commentId);
 }
