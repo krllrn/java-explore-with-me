@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.practicum.ewm.models.event.Event;
+import ru.practicum.ewm.models.event.EventStates;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     //Find events by initiator
     @Query(value = "select * from events where initiator = ?1", nativeQuery = true)
     List<Event> findEventsByInitiator(Long initiatorId);
+
+    //Find events by state
+    @Query(value = "select * from events where state like ?1%", nativeQuery = true)
+    List<Event> findEventsByState(String state);
 }

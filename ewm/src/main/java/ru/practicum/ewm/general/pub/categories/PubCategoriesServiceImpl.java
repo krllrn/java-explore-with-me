@@ -1,6 +1,7 @@
 package ru.practicum.ewm.general.pub.categories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.mapper.CategoryMapper;
 import ru.practicum.ewm.models.category.CategoryDto;
@@ -9,6 +10,7 @@ import ru.practicum.ewm.repositories.CategoryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class PubCategoriesServiceImpl implements PubCategoriesService {
 
     private final CategoryRepository categoryRepository;

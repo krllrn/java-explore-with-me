@@ -7,6 +7,7 @@ import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.event.EventShortDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class PubEventController {
                                          @RequestParam(value = "onlyAvailable", required = false, defaultValue = "false") String onlyAvailable,
                                          @RequestParam(value = "sort", required = false) String sort,
                                          @RequestParam(value = "from", required = false, defaultValue = "0") String from,
-                                         @RequestParam(value = "size", required = false, defaultValue = "10") String size, HttpServletRequest request) {
+                                         @RequestParam(value = "size", required = false, defaultValue = "10") String size, HttpServletRequest request) throws URISyntaxException {
         Map<String, String> parameters = Map.of(
                 "text", text,
                 "categories", categories,
@@ -49,7 +50,7 @@ public class PubEventController {
     }
 
     @GetMapping("/{id}")
-    public EventShortDto getEventById(@PathVariable Long id, HttpServletRequest request) {
+    public EventShortDto getEventById(@PathVariable Long id, HttpServletRequest request) throws URISyntaxException {
         log.info("Get event by id: {}", id);
         return pubEventService.getEventById(id, request);
     }

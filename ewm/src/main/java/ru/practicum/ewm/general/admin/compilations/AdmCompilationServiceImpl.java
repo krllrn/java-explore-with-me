@@ -2,7 +2,6 @@ package ru.practicum.ewm.general.admin.compilations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
 import ru.practicum.ewm.mapper.CompilationMapper;
@@ -10,17 +9,21 @@ import ru.practicum.ewm.models.compilation.Compilation;
 import ru.practicum.ewm.models.compilation.CompilationDto;
 import ru.practicum.ewm.models.compilation.NewCompilationDto;
 import ru.practicum.ewm.repositories.CompilationRepository;
+import ru.practicum.ewm.repositories.EventRepository;
 
 @Service
 public class AdmCompilationServiceImpl implements AdmCompilationService {
 
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
+    private final EventRepository eventRepository;
 
     @Autowired
-    public AdmCompilationServiceImpl(CompilationRepository compilationRepository, CompilationMapper compilationMapper) {
+    public AdmCompilationServiceImpl(CompilationRepository compilationRepository, CompilationMapper compilationMapper,
+                                     EventRepository eventRepository) {
         this.compilationRepository = compilationRepository;
         this.compilationMapper = compilationMapper;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
             throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
         }
         Compilation compilation = compilationRepository.findByIdIs(compId);
-        compilation.getEvents().add(eventId);
+        compilation.getEvents().add(eventRepository.findByIdIs(eventId));
         compilationRepository.save(compilation);
     }
 

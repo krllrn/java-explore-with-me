@@ -84,11 +84,12 @@ public class RegRequestServiceImpl implements RegRequestService {
         if (!event.getState().equals(EventStates.PUBLISHED)) {
             throw new BadRequestHandler("Can't apply to non published event.");
         }
-        if (requestRepository.findAllByEventId(eventId).size() == event.getParticipantLimit()) {
-            throw new BadRequestHandler("Limit of requests");
-        }
-        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
-            request.setStatus(RequestStatus.CONFIRM);
+        /*if (requestRepository.findAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED).size() == event
+        .getParticipantLimit()) {
+            throw new BadRequestHandler("Limit of requests from add request.");
+        }*/
+        if (!event.getRequestModeration()) {
+            request.setStatus(RequestStatus.CONFIRMED);
         } else {
             request.setStatus(RequestStatus.PENDING);
         }
@@ -109,7 +110,7 @@ public class RegRequestServiceImpl implements RegRequestService {
             throw new NotFoundHandler("Request not found.");
         }
         Request request = requestRepository.findByIdIs(requestId);
-        request.setStatus(RequestStatus.REJECT);
+        request.setStatus(RequestStatus.REJECTED);
 
         return requestMapper.entityToDto(requestRepository.save(request));
     }

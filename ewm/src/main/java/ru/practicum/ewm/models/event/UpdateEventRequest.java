@@ -20,17 +20,14 @@ import java.time.LocalDateTime;
 public class UpdateEventRequest {
     private String annotation;
 
-    private Category category;
+    private Long category;
 
     private String description;
 
     @FutureOrPresent(message = "Date in past - WRONG!")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
-    @NotNull
-    @NotBlank
-    @NotEmpty
     @JsonAlias({"eventId"})
     private Long id;
 

@@ -16,10 +16,7 @@ import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.models.request.Request;
 import ru.practicum.ewm.models.request.RequestDto;
 import ru.practicum.ewm.models.request.RequestStatus;
-import ru.practicum.ewm.repositories.CommentRepository;
-import ru.practicum.ewm.repositories.EventRepository;
-import ru.practicum.ewm.repositories.RequestRepository;
-import ru.practicum.ewm.repositories.UserRepository;
+import ru.practicum.ewm.repositories.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -103,8 +100,9 @@ public class RegEventServiceImpl implements RegEventService {
         if (newEventDto.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
             throw new BadRequestHandler("Event date can't be earlier than 2 hours from now.");
         }
-        return eventMapper.entityToFullDto(eventRepository.save(eventMapper.newToEntity(
-                userRepository.findByIdIs(userId), newEventDto)));
+        Event event = eventRepository.save(eventMapper.newToEntity(userRepository.findByIdIs(userId), newEventDto));
+        event.setLocation(newEventDto.getLocation());
+        return eventMapper.entityToFullDto(event);
     }
 
     @Override
@@ -173,11 +171,11 @@ public class RegEventServiceImpl implements RegEventService {
             throw new ConflictHandler("Limit of requests.");
         }
         Request request = requestRepository.findByIdIs(reqId);
-        request.setStatus(RequestStatus.CONFIRM);
+        request.setStatus(RequestStatus.CONFIRMED);
         requestRepository.save(request);
         if (event.getConfirmedRequests() == event.getParticipantLimit()) {
             for (Request r : requestRepository.findAllByEventIdAndStatus(eventId, RequestStatus.PENDING)) {
-                r.setStatus(RequestStatus.REJECT);
+                r.setStatus(RequestStatus.REJECTED);
                 requestRepository.save(r);
             }
         }
@@ -199,7 +197,7 @@ public class RegEventServiceImpl implements RegEventService {
             throw new ForbiddenHandler("Only initiator can request information.");
         }
         Request request = requestRepository.findByIdIs(reqId);
-        request.setStatus(RequestStatus.REJECT);
+        request.setStatus(RequestStatus.REJECTED);
         requestRepository.save(request);
 
         return requestMapper.entityToDto(requestRepository.findByIdIs(reqId));

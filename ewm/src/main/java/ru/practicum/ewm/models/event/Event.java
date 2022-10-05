@@ -3,9 +3,12 @@ package ru.practicum.ewm.models.event;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.location.Location;
+import ru.practicum.ewm.models.location.LocationConverter;
 import ru.practicum.ewm.models.user.User;
 
 import javax.persistence.*;
@@ -52,9 +55,9 @@ public class Event implements Comparable<Event> {
     @JoinColumn(name = "initiator", nullable = false)
     private User initiator;
 
-    @JoinColumn(name = "location", nullable = false)
-    @ElementCollection
-    private List<Float> location;
+    @Convert(converter = LocationConverter.class)
+    @Column(name = "location")
+    private Location location;
 
     @Column(name = "paid", nullable = false)
     private Boolean paid;

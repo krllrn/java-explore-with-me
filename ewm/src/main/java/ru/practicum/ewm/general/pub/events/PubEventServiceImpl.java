@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,59 +39,6 @@ public class PubEventServiceImpl implements PubEventService {
         this.eventMapper = eventMapper;
         this.statistic = statistic;
         this.entityManagerFactory = entityManagerFactory;
-    }
-
-    // Need check if it works
-    public List<EventShortDto> getEventsPredicate(Map<String, String> parameters, HttpServletRequest request) {
-        CriteriaBuilder criteriaBuilder = entityManagerFactory.getCriteriaBuilder();
-        CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
-        Root<Event> root = criteriaQuery.from(Event.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (parameters.get("text") != null) {
-            predicates.add((Predicate) criteriaQuery.select(root)
-                    .where(criteriaBuilder.or(criteriaBuilder.like(root.get("annotation"), parameters.get("text").toLowerCase()),
-                            criteriaBuilder.like(root.get("description"), parameters.get("text").toLowerCase()))));
-        }
-        if (parameters.get("categories") != null) {
-            List<Long> categoriesId = Arrays.stream(parameters.get("categories").split(","))
-                    .map(Long::parseLong)
-                    .collect(Collectors.toList());
-            predicates.add((Predicate) criteriaQuery.select(root).where(root.get("categories").in(categoriesId)));
-        }
-        if (parameters.get("paid") != null) {
-            predicates.add((Predicate) criteriaQuery.select(root)
-                    .where(criteriaBuilder.equal(root.get("paid"), parameters.get("paid"))));
-        }
-        if (parameters.get("rangeStart") != null && parameters.get("rangeEnd") != null) {
-            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"));
-            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"));
-            predicates.add((Predicate) criteriaQuery.select(root).where(criteriaBuilder.and(
-                    criteriaBuilder.greaterThan(root.get("eventDate"), rangeStart),
-                    criteriaBuilder.lessThan(root.get("eventDate"), rangeEnd))));
-        } else {
-            predicates.add((Predicate) criteriaQuery.select(root).where(criteriaBuilder.greaterThan(root.get("eventDate"),
-                    LocalDateTime.now())));
-        }
-        if (parameters.get("onlyAvailable") != null) {
-            predicates.add((Predicate) criteriaQuery.select(root).where(criteriaBuilder.lessThan(root.get("participantLimit"),
-                    root.get("confirmedRequests"))));
-        }
-        if (parameters.get("sort") != null) {
-            if (parameters.get("sort").equals("EVENT_DATE")) {
-                predicates.add((Predicate) criteriaQuery.select(root).orderBy(criteriaBuilder.desc(root.get("eventDate"))));
-            } else if (parameters.get("sort").equals("VIEWS"))
-                predicates.add((Predicate) criteriaQuery.select(root).orderBy(criteriaBuilder.desc(root.get("views"))));
-        }
-        criteriaQuery.where(predicates.toArray(new Predicate[] {}));
-        List<Event> eventsList = entityManagerFactory.createQuery(criteriaQuery).getResultList();
-        return eventsList.stream()
-                .filter(e -> e.getState().equals(EventStates.PUBLISHED))
-                .skip(Long.parseLong(parameters.get("from")))
-                .limit(Long.parseLong(parameters.get("size")))
-                .map(eventMapper::entityToShort)
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -121,8 +69,8 @@ public class PubEventServiceImpl implements PubEventService {
                     .collect(Collectors.toList()));
         }
         if (parameters.get("rangeStart") != null && parameters.get("rangeEnd") != null) {
-            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"));
-            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"));
+            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             eventList.addAll(eventRepository.findAll().stream()
                     .filter(event -> event.getEventDate().isAfter(rangeStart) && event.getEventDate().isBefore(rangeEnd))
                     .sorted(Comparator.comparing(Event::getId))

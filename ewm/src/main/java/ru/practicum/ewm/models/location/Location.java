@@ -4,6 +4,9 @@ import lombok.*;
 import ru.practicum.ewm.models.event.Event;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,9 +14,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Location {
+public class Location implements Serializable {
+    Float lat;
 
-    private Float lat;
-
-    private Float lon;
+    Float lon;
 }

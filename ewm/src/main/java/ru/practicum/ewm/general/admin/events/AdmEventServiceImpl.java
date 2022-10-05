@@ -10,10 +10,7 @@ import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.models.comment.CommentShortDto;
 import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.comment.CommentDto;
-import ru.practicum.ewm.models.event.AdminUpdateEventRequest;
-import ru.practicum.ewm.models.event.Event;
-import ru.practicum.ewm.models.event.EventFullDto;
-import ru.practicum.ewm.models.event.EventStates;
+import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 
@@ -24,10 +21,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,42 +57,40 @@ public class AdmEventServiceImpl implements AdmEventService {
 
     @Override
     public List<EventFullDto> getEvents(Map<String, String> parameters) {
-        CriteriaBuilder criteriaBuilder = entityManagerFactory.getCriteriaBuilder();
-        CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
-        Root<Event> root = criteriaQuery.from(Event.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-
+        Set<Event> eventList = new TreeSet<>();
         if (parameters.get("users") != null) {
-            List<Long> usersIds = Arrays.stream(parameters.get("users").split(","))
-                    .map(Long::parseLong)
-                    .collect(Collectors.toList());
-            predicates.add((Predicate) criteriaQuery.select(root).where(root.get("id").in(usersIds)));
+            String[] users = parameters.get("users").split(",");
+            for (String s : users) {
+                eventList.addAll(eventRepository.findEventsByInitiator(Long.parseLong(s)));
+            }
         }
         if (parameters.get("states") != null) {
-            List<String> states = Arrays.stream(parameters.get("states").split(","))
-                    .collect(Collectors.toList());
-            predicates.add((Predicate) criteriaQuery.select(root).where(root.get("state").in(states)));
+            String[] states = parameters.get("states").split(",");
+            for (String s : states) {
+                eventList.addAll(eventRepository.findEventsByState(s));
+            }
         }
         if (parameters.get("categories") != null) {
-            List<Long> categoryIds = Arrays.stream(parameters.get("categories").split(","))
-                    .map(Long::parseLong)
-                    .collect(Collectors.toList());
-            predicates.add((Predicate) criteriaQuery.select(root).where(root.get("category").in(categoryIds)));
+            String[] categories = parameters.get("categories").split(",");
+            for (String s : categories) {
+                eventList.addAll(eventRepository.findEventsByCategory(Long.valueOf(s)));
+            }
         }
-        if (parameters.get("rangeStart") != null) {
-            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"));
-            predicates.add((Predicate) criteriaQuery.select(root).where(criteriaBuilder.greaterThan(root.get("eventDate"),
-                     rangeStart)));
+        if (parameters.get("rangeStart") != null && parameters.get("rangeEnd") != null) {
+            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            eventList.addAll(eventRepository.findAll().stream()
+                    .filter(event -> event.getEventDate().isAfter(rangeStart) && event.getEventDate().isBefore(rangeEnd))
+                    .sorted(Comparator.comparing(Event::getId))
+                    .collect(Collectors.toList()));
+        } else {
+            eventList.addAll(eventRepository.findAll().stream()
+                    .filter(event -> event.getEventDate().isAfter(LocalDateTime.now()))
+                    .sorted(Comparator.comparing(Event::getId))
+                    .collect(Collectors.toList()));
         }
-        if (parameters.get("rangeEnd") != null) {
-            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"));
-            predicates.add((Predicate) criteriaQuery.select(root).where(criteriaBuilder.lessThan(root.get("eventDate"),
-                    rangeEnd)));
-        }
-        criteriaQuery.where(predicates.toArray(new Predicate[] {}));
-        List<Event> eventsList = entityManagerFactory.createQuery(criteriaQuery).getResultList();
-        return eventsList.stream()
+
+        return eventList.stream()
                 .skip(Long.parseLong(parameters.get("from")))
                 .limit(Long.parseLong(parameters.get("size")))
                 .map(eventMapper::entityToFullDto)
