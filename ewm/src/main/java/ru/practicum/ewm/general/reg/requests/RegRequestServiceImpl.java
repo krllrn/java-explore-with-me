@@ -84,8 +84,7 @@ public class RegRequestServiceImpl implements RegRequestService {
         if (!event.getState().equals(EventStates.PUBLISHED)) {
             throw new BadRequestHandler("Can't apply to non published event.");
         }
-        /*if (requestRepository.findAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED).size() == event
-        .getParticipantLimit()) {
+        /*if (event.getConfirmedRequests() == event.getParticipantLimit()) {
             throw new BadRequestHandler("Limit of requests from add request.");
         }*/
         if (!event.getRequestModeration()) {
@@ -110,7 +109,7 @@ public class RegRequestServiceImpl implements RegRequestService {
             throw new NotFoundHandler("Request not found.");
         }
         Request request = requestRepository.findByIdIs(requestId);
-        request.setStatus(RequestStatus.REJECTED);
+        request.setStatus(RequestStatus.CANCELED);
 
         return requestMapper.entityToDto(requestRepository.save(request));
     }

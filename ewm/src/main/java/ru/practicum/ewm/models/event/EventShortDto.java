@@ -32,6 +32,8 @@ public class EventShortDto {
     @NotBlank
     private Category category;
 
+    private String description;
+
     private int confirmedRequests;
 
     @NotNull
@@ -62,10 +64,12 @@ public class EventShortDto {
 
     private List<CommentDto> comments;
 
-    public EventShortDto(String annotation, Category category, LocalDateTime eventDate, UserShortDto initiator,
+    public EventShortDto(String annotation, Category category, String description, LocalDateTime eventDate,
+                         UserShortDto initiator,
                          Boolean paid, String title) {
         this.annotation = annotation;
         this.category = category;
+        this.description = description;
         this.eventDate = eventDate;
         this.initiator = initiator;
         this.paid = paid;

@@ -8,6 +8,7 @@ import ru.practicum.ewm.model.ViewStats;
 import ru.practicum.ewm.repository.StatisticRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,8 +24,8 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<ViewStats> viewStats(String start, String end, String uris, String unique) {
-        LocalDateTime startDate = LocalDateTime.parse(start);
-        LocalDateTime endDate = LocalDateTime.parse(end);
+        LocalDateTime startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         List<ViewStats> viewStatsList = new ArrayList<>();
         Map<String, List<EndpointHit>> hitsMap = new HashMap<>();
         if (unique == null || unique.equals("false")) {
