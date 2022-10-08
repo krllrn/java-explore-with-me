@@ -45,37 +45,24 @@ public class AdmEventController {
         return admEventService.getEvents(parameters);
     }
 
-    /*
-    Редактирование данных любого события администратором. Валидация данных не требуется.
-     */
     @PutMapping("/{eventId}")
     public EventFullDto editEvent(@PathVariable Long eventId, @Valid @RequestBody AdminUpdateEventRequest adminUpdateEventRequest) {
         log.info("Edit event with ID: {}", eventId);
         return admEventService.editEvent(eventId, adminUpdateEventRequest);
     }
 
-    /*
-    дата начала события должна быть не ранее чем за час от даты публикации.
-    событие должно быть в состоянии ожидания публикации
-     */
     @PatchMapping("/{eventId}/publish")
     public EventFullDto publishEvent(@PathVariable Long eventId) {
         log.info("Publish event with ID: {}", eventId);
         return admEventService.publishEvent(eventId);
     }
 
-    /*
-    событие не должно быть опубликовано.
-    */
     @PatchMapping("/{eventId}/reject")
     public EventFullDto rejectEvent(@PathVariable Long eventId) {
         log.info("Reject publish event with ID: {}", eventId);
         return admEventService.rejectEvent(eventId);
     }
 
-    /*
-    редактирование конкретного комментария
-     */
     @PatchMapping("/{eventId}/comments/{commentId}")
     public CommentDto editComment(@PathVariable Long eventId, @PathVariable Long commentId,
                                   @Valid @RequestBody CommentShortDto commentShortDto) {

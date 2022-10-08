@@ -21,10 +21,6 @@ public class AdmUsersController {
         this.admUsersService = admUsersService;
     }
 
-    /*
-    Возвращает информацию обо всех пользователях (учитываются параметры ограничения выборки),
-    либо о конкретных (учитываются указанные идентификаторы)
-     */
     @GetMapping
     public List<UserDto> getUsers(@RequestParam(value = "ids", required = false) List<Long> ids,
                                   @RequestParam(value = "from", required = false, defaultValue = "0") Integer from,
