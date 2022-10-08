@@ -5,7 +5,6 @@ import ru.practicum.ewm.models.event.Event;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.SortedSet;
 
 @Getter
 @Setter

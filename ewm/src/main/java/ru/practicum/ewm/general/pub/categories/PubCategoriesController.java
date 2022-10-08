@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.category.CategoryDto;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/categories")

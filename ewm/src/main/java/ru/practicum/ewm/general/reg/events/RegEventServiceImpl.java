@@ -16,7 +16,10 @@ import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.models.request.Request;
 import ru.practicum.ewm.models.request.RequestDto;
 import ru.practicum.ewm.models.request.RequestStatus;
-import ru.practicum.ewm.repositories.*;
+import ru.practicum.ewm.repositories.CommentRepository;
+import ru.practicum.ewm.repositories.EventRepository;
+import ru.practicum.ewm.repositories.RequestRepository;
+import ru.practicum.ewm.repositories.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

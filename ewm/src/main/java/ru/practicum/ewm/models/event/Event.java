@@ -3,8 +3,6 @@ package ru.practicum.ewm.models.event;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.location.Location;
@@ -60,6 +58,7 @@ public class Event implements Comparable<Event> {
     private Location location;
 
     @Column(name = "paid", nullable = false)
+    @Convert(converter = BooleanConverter.class)
     private Boolean paid;
 
     @Column(name = "participant_limit")
@@ -69,6 +68,7 @@ public class Event implements Comparable<Event> {
     private LocalDateTime publishedOn;
 
     @Column(name = "request_moderation")
+    @Convert(converter = BooleanConverter.class)
     private Boolean requestModeration;
 
     @Column(name = "state")

@@ -3,7 +3,6 @@ package ru.practicum.ewm.general.pub.events;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.event.EventShortDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +44,7 @@ public class PubEventController {
                 "from", from,
                 "size", size
         );
-        log.info("Get events with parameters: {}", parameters.values());
+        log.info("Get events with parameters: {}, {}", parameters.keySet(), parameters.values());
         return pubEventService.getEvents(parameters, request);
     }
 

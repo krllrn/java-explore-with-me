@@ -1,14 +1,11 @@
 package ru.practicum.ewm.models.compilation;
 
 import lombok.*;
-import ru.practicum.ewm.models.event.Event;
-import ru.practicum.ewm.models.event.EventShortDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.SortedSet;
 
 @Getter
 @Setter

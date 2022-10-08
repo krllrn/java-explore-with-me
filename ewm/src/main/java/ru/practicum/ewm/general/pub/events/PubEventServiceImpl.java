@@ -6,7 +6,10 @@ import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.models.category.Category;
-import ru.practicum.ewm.models.event.*;
+import ru.practicum.ewm.models.event.Event;
+import ru.practicum.ewm.models.event.EventShortDto;
+import ru.practicum.ewm.models.event.EventStates;
+import ru.practicum.ewm.models.event.Hit;
 import ru.practicum.ewm.repositories.EventRepository;
 import ru.practicum.ewm.statistic.Statistic;
 
@@ -45,8 +48,9 @@ public class PubEventServiceImpl implements PubEventService {
         List<Predicate> predicates = new ArrayList<>();
 
         if (parameters.get("text") != null) {
-            predicates.add(criteriaBuilder.like(root.get("annotation"), parameters.get("text")));
-            predicates.add(criteriaBuilder.like(root.get("description"), parameters.get("text")));
+            Predicate findText = criteriaBuilder.or(criteriaBuilder.like(root.get("annotation"), "%" + parameters.get("text") + "%"),
+                    criteriaBuilder.like(root.get("description"), "%" +  parameters.get("text") + "%"));
+            predicates.add(findText);
         }
         if (parameters.get("categories") != null) {
             List<Long> categoriesId = Arrays.stream(parameters.get("categories").split(","))
@@ -55,7 +59,7 @@ public class PubEventServiceImpl implements PubEventService {
             predicates.add(categoryJoin.get("id").in(categoriesId));
         }
         if (parameters.get("paid") != null) {
-            predicates.add(criteriaBuilder.equal(root.get("paid"), parameters.get("paid")));
+            predicates.add(criteriaBuilder.equal(root.get("paid"), Boolean.parseBoolean(parameters.get("paid"))));
         }
         if (parameters.get("rangeStart") != null && parameters.get("rangeEnd") != null) {
             LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -75,6 +79,7 @@ public class PubEventServiceImpl implements PubEventService {
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {})));
 
         List<Event> eventList = entityManager.createQuery(criteriaQuery).getResultList();
+
         if (parameters.get("sort") != null) {
             List<Event> sortList = new ArrayList<>();
             if (parameters.get("sort").equals("EVENT_DATE")) {

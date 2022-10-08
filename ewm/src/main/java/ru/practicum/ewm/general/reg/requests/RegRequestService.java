@@ -1,6 +1,5 @@
 package ru.practicum.ewm.general.reg.requests;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.ewm.models.request.RequestDto;
 
 import java.util.List;

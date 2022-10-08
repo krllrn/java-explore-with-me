@@ -1,7 +1,6 @@
 package ru.practicum.ewm.models.compilation;
 
 import lombok.*;
-import ru.practicum.ewm.models.event.Event;
 import ru.practicum.ewm.models.event.EventShortDto;
 
 import javax.validation.constraints.NotBlank;

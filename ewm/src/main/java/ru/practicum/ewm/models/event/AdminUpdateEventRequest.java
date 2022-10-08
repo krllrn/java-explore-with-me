@@ -2,7 +2,6 @@ package ru.practicum.ewm.models.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.location.Location;
 
 import javax.validation.constraints.FutureOrPresent;

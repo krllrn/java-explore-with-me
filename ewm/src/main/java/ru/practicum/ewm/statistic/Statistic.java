@@ -1,19 +1,15 @@
 package ru.practicum.ewm.statistic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.practicum.ewm.models.event.Hit;
 import ru.practicum.ewm.models.event.ViewStats;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -22,7 +18,9 @@ import java.util.Objects;
 
 @Service
 public class Statistic {
-    private static final String STATISTIC_URI = "http://localhost:9090";
+
+    @Value("${stat-server.url}")
+    String statistic_uri;
 
     private final RestTemplate restTemplate;
 
@@ -34,7 +32,7 @@ public class Statistic {
     public List<ViewStats> getViews(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         String startEnc = URLEncoder.encode(start.toString(), StandardCharsets.UTF_8);
         String endEnc = URLEncoder.encode(end.toString(), StandardCharsets.UTF_8);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(STATISTIC_URI + "/stats")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(statistic_uri + "/stats")
             .queryParam("start", startEnc)
             .queryParam("end", endEnc);
 
@@ -50,6 +48,6 @@ public class Statistic {
 
     public void hit(Hit hit) {
         HttpEntity<Hit> request = new HttpEntity<>(hit);
-        restTemplate.postForObject(STATISTIC_URI + "/hit", request, Hit.class);
+        restTemplate.postForObject(statistic_uri + "/hit", request, Hit.class);
     }
 }

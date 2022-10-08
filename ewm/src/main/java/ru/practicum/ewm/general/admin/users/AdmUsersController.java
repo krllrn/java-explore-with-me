@@ -8,7 +8,6 @@ import ru.practicum.ewm.models.user.NewUserRequest;
 import ru.practicum.ewm.models.user.UserDto;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/admin/users")
