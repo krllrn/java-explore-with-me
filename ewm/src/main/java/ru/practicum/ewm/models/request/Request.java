@@ -30,4 +30,11 @@ public class Request {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
+
+    public Request(LocalDateTime created, Long event, Long requester, RequestStatus status) {
+        this.created = created;
+        this.event = event;
+        this.requester = requester;
+        this.status = status;
+    }
 }

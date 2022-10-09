@@ -13,13 +13,9 @@ public class CategoryMapper {
 
     @Autowired
     private final ModelMapper modelMapper;
-    @Autowired
-    private final CategoryRepository categoryRepository;
 
-
-    public CategoryMapper(ModelMapper modelMapper, CategoryRepository categoryRepository) {
+    public CategoryMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-        this.categoryRepository = categoryRepository;
     }
 
     public Category catDtoToEntity(CategoryDto categoryDto) {

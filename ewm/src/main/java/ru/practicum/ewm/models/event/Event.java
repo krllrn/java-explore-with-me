@@ -106,4 +106,19 @@ public class Event implements Comparable<Event> {
             return -1;
         }
     }
+
+    public Event(String annotation, Category category, LocalDateTime createdOn, String description, LocalDateTime eventDate,
+                 User initiator, Location location, Boolean paid, int participantLimit, Boolean requestModeration, String title) {
+        this.annotation = annotation;
+        this.category = category;
+        this.createdOn = createdOn;
+        this.description = description;
+        this.eventDate = eventDate;
+        this.initiator = initiator;
+        this.location = location;
+        this.paid = paid;
+        this.participantLimit = participantLimit;
+        this.requestModeration = requestModeration;
+        this.title = title;
+    }
 }

@@ -28,4 +28,10 @@ public class Compilation {
 
     @Column(name = "title")
     private String title;
+
+    public Compilation(List<Event> events, Boolean pinned, String title) {
+        this.events = events;
+        this.pinned = pinned;
+        this.title = title;
+    }
 }

@@ -26,5 +26,5 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query(value = "select * from requests where event_id = ?1 and requester = ?2", nativeQuery = true)
     Request findByRequesterAndEvent(Long eventId, Long requester);
 
-    Request findByIdIs(Long eventId);
+    Request findByIdIs(Long reqId);
 }
