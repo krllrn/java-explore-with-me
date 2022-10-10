@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class PubCategoriesServiceImpl implements PubCategoriesService {
-
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 

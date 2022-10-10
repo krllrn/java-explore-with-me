@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdmEventServiceImpl implements AdmEventService {
-
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final CommentRepository commentRepository;
@@ -118,10 +117,6 @@ public class AdmEventServiceImpl implements AdmEventService {
         );
     }
 
-    /*
-    дата начала события должна быть не ранее чем за час от даты публикации.
-    событие должно быть в состоянии ожидания публикации
-     */
     @Override
     public EventFullDto publishEvent(Long eventId) {
         checkEvent(eventId);
@@ -137,9 +132,6 @@ public class AdmEventServiceImpl implements AdmEventService {
         return eventMapper.entityToFullDto(eventRepository.save(eventToUpdate));
     }
 
-    /*
-    событие не должно быть опубликовано.
-     */
     @Override
     public EventFullDto rejectEvent(Long eventId) {
         checkEvent(eventId);

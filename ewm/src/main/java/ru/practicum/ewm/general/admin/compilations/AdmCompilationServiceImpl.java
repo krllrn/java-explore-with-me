@@ -52,7 +52,7 @@ public class AdmCompilationServiceImpl implements AdmCompilationService {
             throw new NotFoundHandler("Compilation with ID:" + compId + " not found.");
         }
         Compilation compilation = compilationRepository.findByIdIs(compId);
-        compilation.getEvents().remove(eventId);
+        compilation.getEvents().remove(eventRepository.findByIdIs(eventId));
         compilationRepository.save(compilation);
     }
 

@@ -9,6 +9,6 @@ import ru.practicum.ewm.models.comment.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Comment findByIdIs(Long commentId);
 
-    @Query(value = "select * from comments where id = ?1 and event_id = ?2")
+    @Query(value = "select * from comments where id = ?1 and event_id = ?2", nativeQuery = true)
     Comment findByIdAndEventId(Long commentId, Long eventId);
 }
