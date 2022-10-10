@@ -167,4 +167,19 @@ public class AdmEventServiceImpl implements AdmEventService {
         comment.setText(commentShortDto.getText());
         return commentMapper.entityToDto(commentRepository.save(comment));
     }
+
+    @Override
+    public void deleteComment(Long eventId, Long commentId) {
+        checkEvent(eventId);
+        if (commentId == null) {
+            throw new BadRequestHandler("Comment ID can't be NULL.");
+        }
+        if (commentRepository.findByIdIs(commentId) == null) {
+            throw new NotFoundHandler("Comment not found.");
+        }
+        if (!commentRepository.findByIdIs(commentId).getEventId().equals(eventId)) {
+            throw new ForbiddenHandler("Incorrect comment and event ID's.");
+        }
+        commentRepository.delete(commentRepository.findByIdAndEventId(commentId, eventId));
+    }
 }

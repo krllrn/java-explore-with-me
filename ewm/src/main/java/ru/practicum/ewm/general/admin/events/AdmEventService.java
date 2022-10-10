@@ -18,4 +18,6 @@ public interface AdmEventService {
     EventFullDto rejectEvent(Long eventId);
 
     CommentDto editComment(Long eventId, Long commentId, CommentShortDto commentShortDto);
+
+    void deleteComment(Long eventId, Long commentId);
 }
