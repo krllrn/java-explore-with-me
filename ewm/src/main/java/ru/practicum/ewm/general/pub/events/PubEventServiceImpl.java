@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class PubEventServiceImpl implements PubEventService {
-
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final Statistic statistic;
@@ -33,7 +32,8 @@ public class PubEventServiceImpl implements PubEventService {
     private final EntityManager entityManager;
 
     @Autowired
-    public PubEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, Statistic statistic, EntityManager entityManager) {
+    public PubEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, Statistic statistic,
+                               EntityManager entityManager) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
         this.statistic = statistic;
@@ -75,11 +75,8 @@ public class PubEventServiceImpl implements PubEventService {
                 predicates.add((criteriaBuilder.lessThan(root.get("participantLimit"), root.get("confirmedRequests"))));
             }
         }
-
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {})));
-
         List<Event> eventList = entityManager.createQuery(criteriaQuery).getResultList();
-
         if (parameters.get("sort") != null) {
             List<Event> sortList = new ArrayList<>();
             if (parameters.get("sort").equals("EVENT_DATE")) {
@@ -114,9 +111,11 @@ public class PubEventServiceImpl implements PubEventService {
         if (eventRepository.findByIdIs(eventId) == null) {
             throw new NotFoundHandler("Event not found.");
         }
-        Hit hit = new Hit("Get event by id", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
-        statistic.hit(hit);
-        updateViews(eventId);
+        if (request != null) {
+            Hit hit = new Hit("Get event by id", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now());
+            statistic.hit(hit);
+            updateViews(eventId);
+        }
         return eventMapper.entityToShort(eventRepository.findByIdIs(eventId));
     }
 

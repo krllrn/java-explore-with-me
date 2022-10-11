@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "requests")
 public class Request {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

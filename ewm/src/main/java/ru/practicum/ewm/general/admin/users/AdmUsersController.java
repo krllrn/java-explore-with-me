@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping(path = "/admin/users")
 @Slf4j
 public class AdmUsersController {
-
     private final AdmUsersService admUsersService;
 
     @Autowired

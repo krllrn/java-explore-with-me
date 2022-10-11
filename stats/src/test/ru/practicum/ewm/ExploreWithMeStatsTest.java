@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ExploreWithMeServerTest {
+public class ExploreWithMeStatsTest {
 
     @Test
     public void main() {
-        ExploreWithMeServer.main(new String[] {});
+        ExploreWithMeStats.main(new String[] {});
     }
 }

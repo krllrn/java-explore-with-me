@@ -23,9 +23,6 @@ public class AdmCategoriesServiceImpl implements AdmCategoriesService {
         this.eventRepository = eventRepository;
     }
 
-    /*
-    Обратите внимание: имя категории должно быть уникальным
-    */
     @Override
     public CategoryDto editCategory(CategoryDto categoryDto) {
         Category category = categoryMapper.catDtoToEntity(categoryDto);
@@ -38,9 +35,6 @@ public class AdmCategoriesServiceImpl implements AdmCategoriesService {
         return categoryMapper.catEntityToDto(categoryRepository.save(category));
     }
 
-    /*
-    Обратите внимание: с категорией не должно быть связано ни одного события.
-    */
     @Override
     public void deleteCategory(Long catId) {
         if (eventRepository.findEventsByCategory(catId).size() > 0) {

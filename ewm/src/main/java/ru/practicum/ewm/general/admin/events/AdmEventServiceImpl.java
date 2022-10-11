@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdmEventServiceImpl implements AdmEventService {
-
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final CommentRepository commentRepository;
@@ -112,16 +111,11 @@ public class AdmEventServiceImpl implements AdmEventService {
     public EventFullDto editEvent(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest) {
         checkEvent(eventId);
         Event eventToUpdate = eventRepository.findByIdIs(eventId);
-
         return eventMapper.entityToFullDto(eventRepository.save(
                 eventMapper.updateToEntity(eventToUpdate, adminUpdateEventRequest))
         );
     }
 
-    /*
-    дата начала события должна быть не ранее чем за час от даты публикации.
-    событие должно быть в состоянии ожидания публикации
-     */
     @Override
     public EventFullDto publishEvent(Long eventId) {
         checkEvent(eventId);
@@ -137,9 +131,6 @@ public class AdmEventServiceImpl implements AdmEventService {
         return eventMapper.entityToFullDto(eventRepository.save(eventToUpdate));
     }
 
-    /*
-    событие не должно быть опубликовано.
-     */
     @Override
     public EventFullDto rejectEvent(Long eventId) {
         checkEvent(eventId);
@@ -166,5 +157,20 @@ public class AdmEventServiceImpl implements AdmEventService {
         Comment comment = commentRepository.findByIdIs(commentId);
         comment.setText(commentShortDto.getText());
         return commentMapper.entityToDto(commentRepository.save(comment));
+    }
+
+    @Override
+    public void deleteComment(Long eventId, Long commentId) {
+        checkEvent(eventId);
+        if (commentId == null) {
+            throw new BadRequestHandler("Comment ID can't be NULL.");
+        }
+        if (commentRepository.findByIdIs(commentId) == null) {
+            throw new NotFoundHandler("Comment not found.");
+        }
+        if (!commentRepository.findByIdIs(commentId).getEventId().equals(eventId)) {
+            throw new ForbiddenHandler("Incorrect comment and event ID's.");
+        }
+        commentRepository.delete(commentRepository.findByIdAndEventId(commentId, eventId));
     }
 }

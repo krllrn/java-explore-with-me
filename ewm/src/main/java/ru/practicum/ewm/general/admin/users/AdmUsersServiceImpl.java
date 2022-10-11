@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdmUsersServiceImpl implements AdmUsersService {
-
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 

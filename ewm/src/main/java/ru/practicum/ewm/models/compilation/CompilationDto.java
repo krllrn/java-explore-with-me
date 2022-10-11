@@ -15,7 +15,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class CompilationDto {
-
     private List<EventShortDto> events;
 
     @NotNull

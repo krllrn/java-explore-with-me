@@ -50,14 +50,12 @@ public class EventMapper {
                     .collect(Collectors.toList());
             eventShortDto.setComments(commentDto);
         }
-
         return eventShortDto;
     }
 
     public Event updateReqToEntity(Event event, UpdateEventRequest updateEventRequest) {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(updateEventRequest, event);
-
         if(event.getState().equals(EventStates.CANCELED)) {
             event.setState(EventStates.PENDING);
         }
@@ -71,7 +69,6 @@ public class EventMapper {
         event.setState(EventStates.PENDING);
         event.setViews(0L);
         event.setCategory(categoryRepository.findByIdIs(newEventDto.getCategory()));
-
         return event;
     }
 }

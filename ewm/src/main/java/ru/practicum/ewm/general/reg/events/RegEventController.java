@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping(path = "/users")
 @Slf4j
 public class RegEventController {
-
     private final RegEventService regEventService;
 
     @Autowired

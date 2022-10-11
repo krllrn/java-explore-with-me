@@ -1,9 +1,6 @@
 package ru.practicum.ewm.model;
 
-import com.vladmihalcea.hibernate.type.basic.Inet;
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLInetType;
 import lombok.*;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,13 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Entity
-@TypeDef(
-        name = "ipv4",
-        typeClass = PostgreSQLInetType.class,
-        defaultForType = Inet.class)
 @Table(name = "statistic")
 public class EndpointHit implements Comparable<EndpointHit> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

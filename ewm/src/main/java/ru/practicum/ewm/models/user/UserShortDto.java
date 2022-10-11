@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 @ToString
 public class UserShortDto {
-
     @NotBlank
     @NotEmpty
     @NotNull

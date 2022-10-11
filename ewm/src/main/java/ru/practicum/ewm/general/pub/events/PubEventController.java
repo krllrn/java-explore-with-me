@@ -14,14 +14,12 @@ import java.util.Map;
 @RequestMapping(path = "/events")
 @Slf4j
 public class PubEventController {
-
     private final PubEventService pubEventService;
 
     @Autowired
     public PubEventController(PubEventService pubEventService) {
         this.pubEventService = pubEventService;
     }
-
 
     @GetMapping
     public List<EventShortDto> getEvents(@RequestParam(value = "text", required = false) String text,
@@ -32,7 +30,8 @@ public class PubEventController {
                                          @RequestParam(value = "onlyAvailable", required = false, defaultValue = "false") String onlyAvailable,
                                          @RequestParam(value = "sort", required = false) String sort,
                                          @RequestParam(value = "from", required = false, defaultValue = "0") String from,
-                                         @RequestParam(value = "size", required = false, defaultValue = "10") String size, HttpServletRequest request) throws URISyntaxException {
+                                         @RequestParam(value = "size", required = false, defaultValue = "10") String size,
+                                         HttpServletRequest request) throws URISyntaxException {
         Map<String, String> parameters = Map.of(
                 "text", text,
                 "categories", categories,

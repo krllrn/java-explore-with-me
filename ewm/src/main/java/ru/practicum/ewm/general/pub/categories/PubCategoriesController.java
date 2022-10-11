@@ -11,7 +11,6 @@ import java.util.List;
 @RequestMapping(path = "/categories")
 @Slf4j
 public class PubCategoriesController {
-
     private final PubCategoriesService pubCategoriesService;
 
     @Autowired

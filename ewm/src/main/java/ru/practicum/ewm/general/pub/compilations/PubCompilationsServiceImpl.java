@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class PubCompilationsServiceImpl implements PubCompilationsService {
-
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
 
@@ -26,7 +25,7 @@ public class PubCompilationsServiceImpl implements PubCompilationsService {
 
     @Override
     public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
-        List<CompilationDto> compilationList = new ArrayList<>();
+        List<CompilationDto> compilationList;
         if (pinned != null) {
             compilationList = compilationRepository.findByPinned(pinned).stream()
                     .map(compilationMapper::compEntityToDto)

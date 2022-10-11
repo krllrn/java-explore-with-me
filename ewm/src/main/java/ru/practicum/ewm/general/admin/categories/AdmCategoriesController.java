@@ -13,14 +13,12 @@ import javax.validation.Valid;
 @RequestMapping(path = "/admin/categories")
 @Slf4j
 public class AdmCategoriesController {
-
     private final AdmCategoriesService admCategoriesService;
 
     @Autowired
     public AdmCategoriesController(AdmCategoriesService admCategoriesService) {
         this.admCategoriesService = admCategoriesService;
     }
-
 
     @PatchMapping
     public CategoryDto editCategory(@Valid @RequestBody CategoryDto categoryDto) {
@@ -33,7 +31,6 @@ public class AdmCategoriesController {
         log.info("Add new category with name: {}", newCategoryDto.getName());
         return admCategoriesService.addCategory(newCategoryDto);
     }
-
 
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)

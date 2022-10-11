@@ -22,7 +22,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "events")
 public class Event implements Comparable<Event> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

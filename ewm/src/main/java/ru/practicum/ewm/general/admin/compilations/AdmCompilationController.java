@@ -13,7 +13,6 @@ import javax.validation.Valid;
 @RequestMapping(path = "/admin/compilations")
 @Slf4j
 public class AdmCompilationController {
-
     private final AdmCompilationService admCompilationService;
 
     @Autowired
