@@ -21,7 +21,6 @@ import ru.practicum.ewm.repositories.EventRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;

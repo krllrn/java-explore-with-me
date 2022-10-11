@@ -111,7 +111,6 @@ public class AdmEventServiceImpl implements AdmEventService {
     public EventFullDto editEvent(Long eventId, AdminUpdateEventRequest adminUpdateEventRequest) {
         checkEvent(eventId);
         Event eventToUpdate = eventRepository.findByIdIs(eventId);
-
         return eventMapper.entityToFullDto(eventRepository.save(
                 eventMapper.updateToEntity(eventToUpdate, adminUpdateEventRequest))
         );

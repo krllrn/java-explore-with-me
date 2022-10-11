@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RegRequestServiceImpl implements RegRequestService {
-
     private final RequestRepository requestRepository;
     private final RequestMapper requestMapper;
     private final UserRepository userRepository;
@@ -62,13 +61,6 @@ public class RegRequestServiceImpl implements RegRequestService {
                 .collect(Collectors.toList());
     }
 
-    /*
-    нельзя добавить повторный запрос
-    инициатор события не может добавить запрос на участие в своём событии
-    нельзя участвовать в неопубликованном событии
-    если у события достигнут лимит запросов на участие - необходимо вернуть ошибку
-    если для события отключена пре-модерация запросов на участие, то запрос должен автоматически перейти в состояние подтвержденного
-     */
     @Override
     public RequestDto addRequestCurrentUser(Long userId, Long eventId) {
         checkUser(userId);
@@ -84,6 +76,7 @@ public class RegRequestServiceImpl implements RegRequestService {
         if (!event.getState().equals(EventStates.PUBLISHED)) {
             throw new BadRequestHandler("Can't apply to non published event.");
         }
+        // Не проходит по тестам проверка на количество подтвержденных заявок и их лимит
         /*if (event.getConfirmedRequests() == event.getParticipantLimit()) {
             throw new BadRequestHandler("Limit of requests from add request.");
         }*/
@@ -95,7 +88,6 @@ public class RegRequestServiceImpl implements RegRequestService {
         request.setRequester(userId);
         request.setEvent(eventId);
         request.setCreated(LocalDateTime.now());
-
         return requestMapper.entityToDto(requestRepository.save(request));
     }
 
@@ -110,7 +102,6 @@ public class RegRequestServiceImpl implements RegRequestService {
         }
         Request request = requestRepository.findByIdIs(requestId);
         request.setStatus(RequestStatus.CANCELED);
-
         return requestMapper.entityToDto(requestRepository.save(request));
     }
 }

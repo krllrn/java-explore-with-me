@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class RequestDto {
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
 

@@ -75,6 +75,6 @@ public class AdmEventController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteComment(@PathVariable Long eventId, @PathVariable Long commentId) {
         log.info("Admin delete comment from event {} with ID: {}", eventId, commentId);
-
+        admEventService.deleteComment(eventId, commentId);
     }
 }

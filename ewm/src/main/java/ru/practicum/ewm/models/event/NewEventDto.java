@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class NewEventDto {
-
     @NotNull
     private String annotation;
 
@@ -40,8 +39,7 @@ public class NewEventDto {
     @NotNull
     private String title;
 
-    public NewEventDto(String annotation, Long category, String description, LocalDateTime eventDate,
-                       Location location,
+    public NewEventDto(String annotation, Long category, String description, LocalDateTime eventDate, Location location,
                        String title) {
         this.annotation = annotation;
         this.category = category;

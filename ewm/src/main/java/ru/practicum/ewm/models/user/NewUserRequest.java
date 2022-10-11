@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 @ToString
 public class NewUserRequest {
-
     @Email
     @NotBlank
     @NotEmpty

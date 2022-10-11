@@ -21,7 +21,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class EventFullDto {
-
     @NotNull
     @NotEmpty
     @NotBlank

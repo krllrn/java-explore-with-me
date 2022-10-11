@@ -41,7 +41,7 @@ public class ExceptionsHandler {
         apiError.setReason(ex.getMessage());
         apiError.setMessage("Request conflicts with the current state of the server.");
 
-        return new ResponseEntity<ApiError>(apiError, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(NotFoundHandler.class)

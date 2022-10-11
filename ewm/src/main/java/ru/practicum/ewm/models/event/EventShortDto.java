@@ -20,7 +20,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class EventShortDto {
-
     @NotNull
     @NotEmpty
     @NotBlank
@@ -63,8 +62,7 @@ public class EventShortDto {
 
     private List<CommentDto> comments;
 
-    public EventShortDto(String annotation, Category category, String description, LocalDateTime eventDate,
-                         UserShortDto initiator,
+    public EventShortDto(String annotation, Category category, String description, LocalDateTime eventDate, UserShortDto initiator,
                          Boolean paid, String title) {
         this.annotation = annotation;
         this.category = category;

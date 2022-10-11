@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 @ToString
 public class CategoryDto {
-
     private Long id;
 
     @NotNull

@@ -13,7 +13,6 @@ import ru.practicum.ewm.repositories.EventRepository;
 
 @Service
 public class AdmCompilationServiceImpl implements AdmCompilationService {
-
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
     private final EventRepository eventRepository;

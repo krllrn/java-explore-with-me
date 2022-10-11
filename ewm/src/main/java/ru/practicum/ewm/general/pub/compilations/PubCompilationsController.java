@@ -12,7 +12,6 @@ import java.util.Map;
 @RequestMapping(path = "/compilations")
 @Slf4j
 public class PubCompilationsController {
-
     private final PubCompilationsService pubCompilationsService;
 
     @Autowired

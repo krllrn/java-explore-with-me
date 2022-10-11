@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface PubEventService {
-    List<EventShortDto> getEvents(Map<String, String> parameters, HttpServletRequest request) throws URISyntaxException;
+    List<EventShortDto> getEvents(Map<String, String> parameters, HttpServletRequest request);
 
-    EventShortDto getEventById(Long id, HttpServletRequest request) throws URISyntaxException;
+    EventShortDto getEventById(Long id, HttpServletRequest request);
 }

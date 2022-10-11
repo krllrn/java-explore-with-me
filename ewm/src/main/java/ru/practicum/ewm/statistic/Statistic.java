@@ -18,7 +18,6 @@ import java.util.Objects;
 
 @Service
 public class Statistic {
-
     @Value("${stat-server.url}")
     String statistic_uri;
 

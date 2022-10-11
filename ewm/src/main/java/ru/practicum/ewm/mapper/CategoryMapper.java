@@ -6,11 +6,9 @@ import org.springframework.stereotype.Component;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.category.CategoryDto;
 import ru.practicum.ewm.models.category.NewCategoryDto;
-import ru.practicum.ewm.repositories.CategoryRepository;
 
 @Component
 public class CategoryMapper {
-
     @Autowired
     private final ModelMapper modelMapper;
 

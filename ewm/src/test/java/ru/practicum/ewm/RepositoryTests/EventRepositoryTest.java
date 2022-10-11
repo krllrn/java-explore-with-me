@@ -3,14 +3,11 @@ package ru.practicum.ewm.RepositoryTests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import ru.practicum.ewm.mapper.CommentMapper;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.comment.Comment;
-import ru.practicum.ewm.models.comment.CommentShortDto;
 import ru.practicum.ewm.models.event.Event;
 import ru.practicum.ewm.models.event.EventStates;
 import ru.practicum.ewm.models.location.Location;
@@ -33,7 +30,7 @@ public class EventRepositoryTest {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    private final Category category = new Category(1L, "Category");
+    private final Category category = new Category("Category");
     private final User user = new User("test@email.ru" ,"Name");
     private final Event event = new Event("Annotation", category, LocalDateTime.now(), "Description", LocalDateTime.now().plusDays(4),
             user, new Location(), false, 15, true, "Title");

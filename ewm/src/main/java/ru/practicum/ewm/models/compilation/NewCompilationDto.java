@@ -14,7 +14,6 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public class NewCompilationDto {
-
     private List<Long> events;
 
     private Boolean pinned;

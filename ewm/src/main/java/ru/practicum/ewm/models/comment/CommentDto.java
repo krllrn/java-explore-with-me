@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class CommentDto {
-
     private Long id;
 
     @NotBlank

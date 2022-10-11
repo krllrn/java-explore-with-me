@@ -27,7 +27,6 @@ public class CommentMapper {
         comment.setCreated(LocalDateTime.now());
         comment.setEventId(eventId);
         comment.setAuthorName(username);
-
         return comment;
     }
 }

@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RegEventServiceImpl implements RegEventService {
-
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final RequestRepository requestRepository;
@@ -76,11 +75,6 @@ public class RegEventServiceImpl implements RegEventService {
                 .collect(Collectors.toList());
     }
 
-    /*
-    изменить можно только отмененные события или события в состоянии ожидания модерации
-    если редактируется отменённое событие, то оно автоматически переходит в состояние ожидания модерации
-    дата и время на которые намечено событие не может быть раньше, чем через два часа от текущего момента
-     */
     @Override
     public EventFullDto editEvent(Long userId, UpdateEventRequest updateEventRequest) {
         checkUser(userId);
@@ -94,9 +88,6 @@ public class RegEventServiceImpl implements RegEventService {
         return eventMapper.entityToFullDto(eventRepository.save(eventMapper.updateReqToEntity(event, updateEventRequest)));
     }
 
-    /*
-    Обратите внимание: дата и время на которые намечено событие не может быть раньше, чем через два часа от текущего момента
-     */
     @Override
     public EventFullDto addEvent(Long userId, NewEventDto newEventDto) {
         checkUser(userId);
@@ -119,9 +110,6 @@ public class RegEventServiceImpl implements RegEventService {
         return eventMapper.entityToFullDto(eventRepository.findByIdIs(eventId));
     }
 
-    /*
-    Обратите внимание: Отменить можно только событие в состоянии ожидания модерации.
-     */
     @Override
     public EventFullDto cancelEvent(Long userId, Long eventId) {
         checkUser(userId);
@@ -151,11 +139,6 @@ public class RegEventServiceImpl implements RegEventService {
                 .collect(Collectors.toList());
     }
 
-    /*
-    если для события лимит заявок равен 0 или отключена пре-модерация заявок, то подтверждение заявок не требуется
-    нельзя подтвердить заявку, если уже достигнут лимит по заявкам на данное событие
-    если при подтверждении данной заявки, лимит заявок для события исчерпан, то все неподтверждённые заявки необходимо отклонить
-    */
     @Override
     public RequestDto confirmEventRequest(Long userId, Long eventId, Long reqId) {
         checkUser(userId);
