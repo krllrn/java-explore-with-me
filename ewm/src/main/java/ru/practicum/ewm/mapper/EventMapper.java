@@ -38,7 +38,6 @@ public class EventMapper {
     public Event updateToEntity(Event event, AdminUpdateEventRequest adminUpdateEventRequest) {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(adminUpdateEventRequest, event);
-
         return event;
     }
 
@@ -56,7 +55,7 @@ public class EventMapper {
     public Event updateReqToEntity(Event event, UpdateEventRequest updateEventRequest) {
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(updateEventRequest, event);
-        if(event.getState().equals(EventStates.CANCELED)) {
+        if (event.getState().equals(EventStates.CANCELED)) {
             event.setState(EventStates.PENDING);
         }
         return event;

@@ -34,7 +34,7 @@ public class AdmCategoriesController {
 
     @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCategory(@PathVariable Long catId){
+    public void deleteCategory(@PathVariable Long catId) {
         log.info("Delete category with ID: {}", catId);
         admCategoriesService.deleteCategory(catId);
     }

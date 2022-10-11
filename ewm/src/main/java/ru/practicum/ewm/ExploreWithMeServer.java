@@ -7,13 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-//@EnableJpaRepositories
 public class ExploreWithMeServer {
-
 	public static final String USER_ID_HEADER_REQUEST = "X-Sharer-User-Id";
 
 	@Bean
-	public ModelMapper modelMapper(){
+	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 

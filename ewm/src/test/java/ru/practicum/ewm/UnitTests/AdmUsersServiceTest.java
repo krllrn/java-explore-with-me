@@ -24,7 +24,7 @@ public class AdmUsersServiceTest {
     @Mock
     private UserMapper userMapper;
 
-    private final User user = new User("test@email.ru" ,"Name");
+    private final User user = new User("test@email.ru", "Name");
     private final UserDto userDto = new UserDto("new@email.ru", 1L, "Troll");
     private final NewUserRequest newUserRequest = new NewUserRequest("new@email.ru", "NewTroll");
 

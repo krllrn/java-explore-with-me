@@ -39,7 +39,7 @@ public class PubEventServiceTest {
     private EntityManager entityManager;
 
     private final Category category = new Category(1L, "Category");
-    private final User user = new User("test@email.ru" ,"Name");
+    private final User user = new User("test@email.ru", "Name");
     private final Event event = new Event("Annotation", category, LocalDateTime.now(), "Description", LocalDateTime.now().plusDays(4),
             user, new Location(), false, 15, true, "Title");
     private final EventShortDto eventShortDto = new EventShortDto("Annotation", category, "Description", LocalDateTime.now(),

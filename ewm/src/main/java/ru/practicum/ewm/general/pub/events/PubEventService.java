@@ -3,7 +3,6 @@ package ru.practicum.ewm.general.pub.events;
 import ru.practicum.ewm.models.event.EventShortDto;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 

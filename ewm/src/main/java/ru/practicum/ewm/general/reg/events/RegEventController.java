@@ -35,7 +35,7 @@ public class RegEventController {
     }
 
     @PatchMapping("/{userId}/events")
-    public EventFullDto editEvent(@PathVariable Long userId, @Valid @RequestBody UpdateEventRequest updateEventRequest){
+    public EventFullDto editEvent(@PathVariable Long userId, @Valid @RequestBody UpdateEventRequest updateEventRequest) {
         log.info("Edit event with ID: {}", updateEventRequest.getId());
         return regEventService.editEvent(userId, updateEventRequest);
     }
@@ -84,7 +84,7 @@ public class RegEventController {
 
     @PatchMapping("/{userId}/events/{eventId}/comments/{commentId}")
     public CommentDto editComment(@PathVariable Long userId, @PathVariable Long eventId, @PathVariable Long commentId,
-                                  @Valid @RequestBody CommentShortDto commentShortDto){
+                                  @Valid @RequestBody CommentShortDto commentShortDto) {
         log.info("Edit comment.");
         return regEventService.editComment(userId, eventId, commentId, commentShortDto);
     }

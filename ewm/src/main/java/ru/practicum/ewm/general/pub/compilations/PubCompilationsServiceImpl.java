@@ -8,7 +8,6 @@ import ru.practicum.ewm.mapper.CompilationMapper;
 import ru.practicum.ewm.models.compilation.CompilationDto;
 import ru.practicum.ewm.repositories.CompilationRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -30,7 +30,7 @@ public class CompilationRepositoryTest {
     private final UserRepository userRepository;
 
     private final Category category = new Category("Category");
-    private final User user = new User("test@email.ru" ,"Name");
+    private final User user = new User("test@email.ru", "Name");
     private final Event event = new Event("Annotation", category, LocalDateTime.now(), "Description", LocalDateTime.now().plusDays(4),
             user, new Location(), false, 15, true, "Title");
     private final Compilation compilation = new Compilation(new ArrayList<>(), true, "Title");

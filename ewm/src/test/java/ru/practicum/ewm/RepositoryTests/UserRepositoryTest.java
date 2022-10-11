@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 public class UserRepositoryTest {
     private final UserRepository userRepository;
 
-    private final User user = new User("test@email.ru" ,"Name");
+    private final User user = new User("test@email.ru", "Name");
 
     @Autowired
     public UserRepositoryTest(UserRepository userRepository) {

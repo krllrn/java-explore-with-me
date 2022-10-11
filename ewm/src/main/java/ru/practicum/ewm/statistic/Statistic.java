@@ -19,7 +19,7 @@ import java.util.Objects;
 @Service
 public class Statistic {
     @Value("${stat-server.url}")
-    String statistic_uri;
+    String statisticUri;
 
     private final RestTemplate restTemplate;
 
@@ -31,7 +31,7 @@ public class Statistic {
     public List<ViewStats> getViews(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         String startEnc = URLEncoder.encode(start.toString(), StandardCharsets.UTF_8);
         String endEnc = URLEncoder.encode(end.toString(), StandardCharsets.UTF_8);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(statistic_uri + "/stats")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(statisticUri + "/stats")
             .queryParam("start", startEnc)
             .queryParam("end", endEnc);
 
@@ -47,6 +47,6 @@ public class Statistic {
 
     public void hit(Hit hit) {
         HttpEntity<Hit> request = new HttpEntity<>(hit);
-        restTemplate.postForObject(statistic_uri + "/hit", request, Hit.class);
+        restTemplate.postForObject(statisticUri + "/hit", request, Hit.class);
     }
 }
