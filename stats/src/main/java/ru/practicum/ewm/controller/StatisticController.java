@@ -1,5 +1,6 @@
 package ru.practicum.ewm.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +11,9 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 public class StatisticController {
     private final StatisticService statisticService;
-
-    public StatisticController(StatisticService statisticService) {
-        this.statisticService = statisticService;
-    }
 
     @GetMapping("/stats")
     public List<ViewStats> viewStats(@RequestParam(value = "start") String start, @RequestParam(value = "end") String end,

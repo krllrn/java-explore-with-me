@@ -1,7 +1,7 @@
 package ru.practicum.ewm.general.admin.compilations;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.compilation.CompilationDto;
@@ -12,13 +12,9 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/admin/compilations")
 @Slf4j
+@RequiredArgsConstructor
 public class AdmCompilationController {
     private final AdmCompilationService admCompilationService;
-
-    @Autowired
-    public AdmCompilationController(AdmCompilationService admCompilationService) {
-        this.admCompilationService = admCompilationService;
-    }
 
     @PostMapping
     public CompilationDto addCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {

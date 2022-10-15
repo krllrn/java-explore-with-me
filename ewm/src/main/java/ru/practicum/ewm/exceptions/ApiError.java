@@ -21,6 +21,6 @@ public class ApiError {
 
     private String message;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDateTime timestamp;
 }

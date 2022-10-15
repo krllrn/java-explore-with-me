@@ -23,7 +23,7 @@ public class EndpointHit implements Comparable<EndpointHit> {
     @Column(name = "uri")
     private String uri;
 
-    @Column(name = "ip", columnDefinition = "inet")
+    @Column(name = "ip")
     private String ip;
 
     @Column(name = "time_stamp")

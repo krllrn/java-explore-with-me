@@ -2,7 +2,6 @@ package ru.practicum.ewm.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.event.*;
@@ -21,7 +20,7 @@ public class EventMapper {
     private final CategoryRepository categoryRepository;
 
     @Autowired
-    public EventMapper(ModelMapper modelMapper, @Lazy CommentMapper commentMapper, CategoryRepository categoryRepository) {
+    public EventMapper(ModelMapper modelMapper, CommentMapper commentMapper, CategoryRepository categoryRepository) {
         this.modelMapper = modelMapper;
         this.commentMapper = commentMapper;
         this.categoryRepository = categoryRepository;

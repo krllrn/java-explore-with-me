@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static ru.practicum.ewm.ExploreWithMeStats.LDT_PATTERN;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,6 +20,6 @@ public class EndpointHitDto {
 
     private String ip;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LDT_PATTERN)
     private LocalDateTime timestamp;
 }

@@ -1,6 +1,6 @@
 package ru.practicum.ewm.general.admin.compilations;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
@@ -12,18 +12,11 @@ import ru.practicum.ewm.repositories.CompilationRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 
 @Service
+@RequiredArgsConstructor
 public class AdmCompilationServiceImpl implements AdmCompilationService {
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
     private final EventRepository eventRepository;
-
-    @Autowired
-    public AdmCompilationServiceImpl(CompilationRepository compilationRepository, CompilationMapper compilationMapper,
-                                     EventRepository eventRepository) {
-        this.compilationRepository = compilationRepository;
-        this.compilationMapper = compilationMapper;
-        this.eventRepository = eventRepository;
-    }
 
     @Override
     public CompilationDto addCompilation(NewCompilationDto newCompilationDto) {

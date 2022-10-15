@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static ru.practicum.ewm.ExploreWithMeServer.LDT_PATTERN;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class RequestDto {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LDT_PATTERN)
     private LocalDateTime created;
 
     private Long event;

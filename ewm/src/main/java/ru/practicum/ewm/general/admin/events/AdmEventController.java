@@ -1,7 +1,7 @@
 package ru.practicum.ewm.general.admin.events;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.comment.CommentDto;
@@ -16,14 +16,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/admin/events")
 @Slf4j
+@RequiredArgsConstructor
 public class AdmEventController {
-
     private final AdmEventService admEventService;
-
-    @Autowired
-    public AdmEventController(AdmEventService admEventService) {
-        this.admEventService = admEventService;
-    }
 
     @GetMapping
     public List<EventFullDto> getEvents(@RequestParam(value = "users", required = false) String users,

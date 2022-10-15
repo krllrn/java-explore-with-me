@@ -1,7 +1,7 @@
 package ru.practicum.ewm.general.reg.events;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.comment.CommentDto;
@@ -18,13 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users")
 @Slf4j
+@RequiredArgsConstructor
 public class RegEventController {
     private final RegEventService regEventService;
-
-    @Autowired
-    public RegEventController(RegEventService regEventService) {
-        this.regEventService = regEventService;
-    }
 
     @GetMapping("/{userId}/events")
     public List<EventShortDto> getCurrentUserEvents(@PathVariable Long userId,
@@ -91,7 +87,7 @@ public class RegEventController {
 
     @DeleteMapping("/{userId}/events/{eventId}/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteEvent(@PathVariable Long userId, @PathVariable Long eventId, @PathVariable Long commentId) {
+    public void deleteComment(@PathVariable Long userId, @PathVariable Long eventId, @PathVariable Long commentId) {
         log.info("Delete comment with ID: {}, by user with ID: {}", commentId, userId);
         regEventService.deleteComment(userId, eventId, commentId);
     }

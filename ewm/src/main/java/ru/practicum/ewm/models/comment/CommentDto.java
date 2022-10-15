@@ -8,6 +8,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import static ru.practicum.ewm.ExploreWithMeServer.LDT_PATTERN;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,7 +34,7 @@ public class CommentDto {
     @NotNull
     private String authorName;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LDT_PATTERN)
     private LocalDateTime created;
 
     public CommentDto(String text) {

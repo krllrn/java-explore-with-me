@@ -1,6 +1,6 @@
 package ru.practicum.ewm.general.admin.events;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
@@ -30,7 +30,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static ru.practicum.ewm.ExploreWithMeServer.LDT_PATTERN;
+
 @Service
+@RequiredArgsConstructor
 public class AdmEventServiceImpl implements AdmEventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
@@ -39,16 +42,6 @@ public class AdmEventServiceImpl implements AdmEventService {
 
     @PersistenceContext
     private final EntityManager entityManager;
-
-    @Autowired
-    public AdmEventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, CommentRepository commentRepository,
-                               CommentMapper commentMapper, EntityManager entityManager) {
-        this.eventRepository = eventRepository;
-        this.eventMapper = eventMapper;
-        this.commentRepository = commentRepository;
-        this.commentMapper = commentMapper;
-        this.entityManager = entityManager;
-    }
 
     private void checkEvent(Long eventId) {
         if (eventId == null) {
@@ -87,8 +80,10 @@ public class AdmEventServiceImpl implements AdmEventService {
             predicates.add(categoryJoin.get("id").in(categoriesId));
         }
         if (parameters.get("rangeStart") != null && parameters.get("rangeEnd") != null) {
-            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime rangeStart = LocalDateTime.parse(parameters.get("rangeStart"),
+                    DateTimeFormatter.ofPattern(LDT_PATTERN));
+            LocalDateTime rangeEnd = LocalDateTime.parse(parameters.get("rangeEnd"),
+                    DateTimeFormatter.ofPattern(LDT_PATTERN));
             Predicate start = criteriaBuilder.greaterThanOrEqualTo(root.get("eventDate"), rangeStart);
             Predicate end = criteriaBuilder.lessThanOrEqualTo(root.get("eventDate"), rangeEnd);
             predicates.add(criteriaBuilder.and(start, end));

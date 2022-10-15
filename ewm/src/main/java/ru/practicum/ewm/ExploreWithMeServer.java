@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class ExploreWithMeServer {
-	public static final String USER_ID_HEADER_REQUEST = "X-Sharer-User-Id";
+	public static final String LDT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 	@Bean
 	public ModelMapper modelMapper() {

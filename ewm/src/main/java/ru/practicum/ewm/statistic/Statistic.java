@@ -20,7 +20,6 @@ import java.util.Objects;
 public class Statistic {
     @Value("${stat-server.url}")
     String statisticUri;
-
     private final RestTemplate restTemplate;
 
     @Autowired

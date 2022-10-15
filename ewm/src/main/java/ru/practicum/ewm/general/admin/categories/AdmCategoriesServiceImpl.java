@@ -1,6 +1,6 @@
 package ru.practicum.ewm.general.admin.categories;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.ConflictHandler;
 import ru.practicum.ewm.mapper.CategoryMapper;
@@ -11,17 +11,11 @@ import ru.practicum.ewm.repositories.CategoryRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 
 @Service
+@RequiredArgsConstructor
 public class AdmCategoriesServiceImpl implements AdmCategoriesService {
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
     private final EventRepository eventRepository;
-
-    @Autowired
-    public AdmCategoriesServiceImpl(CategoryMapper categoryMapper, CategoryRepository categoryRepository, EventRepository eventRepository) {
-        this.categoryMapper = categoryMapper;
-        this.categoryRepository = categoryRepository;
-        this.eventRepository = eventRepository;
-    }
 
     @Override
     public CategoryDto editCategory(CategoryDto categoryDto) {

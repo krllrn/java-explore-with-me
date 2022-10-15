@@ -1,7 +1,7 @@
 package ru.practicum.ewm.general.reg.requests;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.request.RequestDto;
 
@@ -10,14 +10,9 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users")
 @Slf4j
+@RequiredArgsConstructor
 public class RegRequestController {
-
     private final RegRequestService regRequestService;
-
-    @Autowired
-    public RegRequestController(RegRequestService regRequestService) {
-        this.regRequestService = regRequestService;
-    }
 
     @GetMapping("/{userId}/requests")
     public List<RequestDto> getUserRequests(@PathVariable Long userId) {

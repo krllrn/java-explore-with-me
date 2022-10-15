@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.practicum.ewm.ExploreWithMeServer.LDT_PATTERN;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,7 +40,7 @@ public class EventShortDto {
     @NotEmpty
     @NotBlank
     @FutureOrPresent(message = "Date in past - WRONG!")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LDT_PATTERN)
     private LocalDateTime eventDate;
 
     private Long id;

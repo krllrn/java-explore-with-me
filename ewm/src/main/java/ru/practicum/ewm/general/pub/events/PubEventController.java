@@ -1,7 +1,7 @@
 package ru.practicum.ewm.general.pub.events;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.event.EventShortDto;
 
@@ -13,13 +13,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/events")
 @Slf4j
+@RequiredArgsConstructor
 public class PubEventController {
     private final PubEventService pubEventService;
-
-    @Autowired
-    public PubEventController(PubEventService pubEventService) {
-        this.pubEventService = pubEventService;
-    }
 
     @GetMapping
     public List<EventShortDto> getEvents(@RequestParam(value = "text", required = false) String text,

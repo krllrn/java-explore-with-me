@@ -1,6 +1,6 @@
 package ru.practicum.ewm.general.pub.compilations;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
@@ -12,15 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PubCompilationsServiceImpl implements PubCompilationsService {
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
-
-    @Autowired
-    public PubCompilationsServiceImpl(CompilationRepository compilationRepository, CompilationMapper compilationMapper) {
-        this.compilationRepository = compilationRepository;
-        this.compilationMapper = compilationMapper;
-    }
 
     @Override
     public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {

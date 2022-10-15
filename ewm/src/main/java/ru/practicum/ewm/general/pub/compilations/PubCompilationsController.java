@@ -1,7 +1,7 @@
 package ru.practicum.ewm.general.pub.compilations;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.models.compilation.CompilationDto;
 
@@ -11,13 +11,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/compilations")
 @Slf4j
+@RequiredArgsConstructor
 public class PubCompilationsController {
     private final PubCompilationsService pubCompilationsService;
-
-    @Autowired
-    public PubCompilationsController(PubCompilationsService pubCompilationsService) {
-        this.pubCompilationsService = pubCompilationsService;
-    }
 
     @GetMapping
     public List<CompilationDto> getCompilations(@RequestParam(value = "pinned", required = false) Boolean pinned,

@@ -1,6 +1,6 @@
 package ru.practicum.ewm.general.reg.events;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ConflictHandler;
@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class RegEventServiceImpl implements RegEventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
@@ -34,18 +35,6 @@ public class RegEventServiceImpl implements RegEventService {
     private final RequestMapper requestMapper;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
-
-    @Autowired
-    public RegEventServiceImpl(EventRepository eventRepository, UserRepository userRepository, RequestRepository requestRepository,
-                               EventMapper eventMapper, RequestMapper requestMapper, CommentMapper commentMapper, CommentRepository commentRepository) {
-        this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
-        this.requestRepository = requestRepository;
-        this.eventMapper = eventMapper;
-        this.requestMapper = requestMapper;
-        this.commentMapper = commentMapper;
-        this.commentRepository = commentRepository;
-    }
 
     private void checkUser(Long userId) {
         if (userId == null) {

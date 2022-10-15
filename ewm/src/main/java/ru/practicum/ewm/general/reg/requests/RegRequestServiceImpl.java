@@ -1,6 +1,6 @@
 package ru.practicum.ewm.general.reg.requests;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
@@ -20,20 +20,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class RegRequestServiceImpl implements RegRequestService {
     private final RequestRepository requestRepository;
     private final RequestMapper requestMapper;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
-
-    @Autowired
-    public RegRequestServiceImpl(RequestRepository requestRepository, RequestMapper requestMapper, UserRepository userRepository,
-                                 EventRepository eventRepository) {
-        this.requestRepository = requestRepository;
-        this.requestMapper = requestMapper;
-        this.userRepository = userRepository;
-        this.eventRepository = eventRepository;
-    }
 
     private void checkUser(Long userId) {
         if (userId == null) {
@@ -76,10 +68,6 @@ public class RegRequestServiceImpl implements RegRequestService {
         if (!event.getState().equals(EventStates.PUBLISHED)) {
             throw new BadRequestHandler("Can't apply to non published event.");
         }
-        // Не проходит по тестам проверка на количество подтвержденных заявок и их лимит
-        /*if (event.getConfirmedRequests() == event.getParticipantLimit()) {
-            throw new BadRequestHandler("Limit of requests from add request.");
-        }*/
         if (!event.getRequestModeration()) {
             request.setStatus(RequestStatus.CONFIRMED);
         } else {

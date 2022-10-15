@@ -30,12 +30,12 @@ public class Event implements Comparable<Event> {
     private String annotation;
 
     @ToString.Exclude
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @Transient
-    @Formula(value = "SELECT COUNT(*) FROM requests WHERE requests.event_id = id")
+    @Formula(value = "SELECT COUNT(*) FROM requests WHERE requests.event_id = events.id AND requests.status = 'CONFIRMED'")
     private int confirmedRequests;
 
     @Column(name = "created_on")
