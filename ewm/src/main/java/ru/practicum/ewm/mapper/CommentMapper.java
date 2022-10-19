@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.comment.CommentShortDto;
+import ru.practicum.ewm.models.event.Event;
 
 import java.time.LocalDateTime;
 
@@ -19,13 +20,15 @@ public class CommentMapper {
     }
 
     public CommentDto entityToDto(Comment comment) {
-        return modelMapper.map(comment, CommentDto.class);
+        CommentDto commentDto = modelMapper.map(comment, CommentDto.class);
+        commentDto.setEventId(comment.getEvent().getId());
+        return commentDto;
     }
 
-    public Comment shortToEntity(String username, Long eventId, CommentShortDto commentShortDto) {
+    public Comment shortToEntity(String username, Event event, CommentShortDto commentShortDto) {
         Comment comment = modelMapper.map(commentShortDto, Comment.class);
         comment.setCreated(LocalDateTime.now());
-        comment.setEventId(eventId);
+        comment.setEvent(event);
         comment.setAuthorName(username);
         return comment;
     }

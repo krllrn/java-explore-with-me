@@ -1,15 +1,17 @@
-version: '3.1'
+version: '3.9'
 services:
   stats-server:
     build: ./stats/
     container_name: statistic
     depends_on:
-      - stats-db
+      stats-db:
+        condition: service_healthy
     ports:
       - "9090:9090"
     networks:
       - ewm
       - stat
+    restart: on-failure
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stat
       - EWM_SERVER_URL=http://ewm-service:8080
@@ -28,17 +30,24 @@ services:
       - POSTGRES_DB=stat
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d stat" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   ewm-service:
     build: ./ewm/
     container_name: explore-with-me
     depends_on:
-      - ewm-db
+      ewm-db:
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:
       - ewm
       - stat
+    restart: on-failure
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm
       - STAT_SERVER_URL=http://stats-server:9090
@@ -57,6 +66,11 @@ services:
       - POSTGRES_DB=ewm
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d ewm" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 networks:
   stat:
   ewm:

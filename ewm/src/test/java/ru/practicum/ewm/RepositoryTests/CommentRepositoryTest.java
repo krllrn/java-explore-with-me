@@ -51,7 +51,7 @@ public class CommentRepositoryTest {
         categoryRepository.save(category);
         userRepository.save(user);
         eventRepository.save(event);
-        Comment comment = commentMapper.shortToEntity("Troll", event.getId(), commentDto);
+        Comment comment = commentMapper.shortToEntity("Troll", event, commentDto);
         commentRepository.save(comment);
 
         Comment founded = commentRepository.findByIdIs(comment.getId());
