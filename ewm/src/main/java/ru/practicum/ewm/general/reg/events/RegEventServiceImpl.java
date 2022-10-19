@@ -142,13 +142,13 @@ public class RegEventServiceImpl implements RegEventService {
         if (!event.getInitiator().getId().equals(userId)) {
             throw new ForbiddenHandler("Only initiator can request information.");
         }
-        if (event.getConfirmedRequests() >= event.getParticipantLimit()) {
+        if (requestRepository.findAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED).size() >= event.getParticipantLimit()) {
             throw new ConflictHandler("Limit of requests.");
         }
         Request request = requestRepository.findByIdIs(reqId);
         request.setStatus(RequestStatus.CONFIRMED);
         requestRepository.save(request);
-        if (event.getConfirmedRequests() == event.getParticipantLimit()) {
+        if (requestRepository.findAllByEventIdAndStatus(eventId, RequestStatus.CONFIRMED).size() == event.getParticipantLimit()) {
             for (Request r : requestRepository.findAllByEventIdAndStatus(eventId, RequestStatus.PENDING)) {
                 r.setStatus(RequestStatus.REJECTED);
                 requestRepository.save(r);
@@ -184,7 +184,8 @@ public class RegEventServiceImpl implements RegEventService {
         checkEvent(eventId);
 
         return commentMapper.entityToDto(commentRepository.save(
-                commentMapper.shortToEntity(userRepository.findByIdIs(userId).getName(), eventId, commentShortDto)));
+                commentMapper.shortToEntity(userRepository.findByIdIs(userId).getName(),
+                        eventRepository.findByIdIs(eventId), commentShortDto)));
     }
 
     @Override

@@ -146,7 +146,7 @@ public class AdmEventServiceImpl implements AdmEventService {
         if (commentRepository.findByIdIs(commentId) == null) {
             throw new NotFoundHandler("Comment not found.");
         }
-        if (!commentRepository.findByIdIs(commentId).getEventId().equals(eventId)) {
+        if (!commentRepository.findByIdIs(commentId).getEvent().getId().equals(eventId)) {
             throw new ForbiddenHandler("Incorrect comment and event ID's.");
         }
         Comment comment = commentRepository.findByIdIs(commentId);
@@ -163,7 +163,7 @@ public class AdmEventServiceImpl implements AdmEventService {
         if (commentRepository.findByIdIs(commentId) == null) {
             throw new NotFoundHandler("Comment not found.");
         }
-        if (!commentRepository.findByIdIs(commentId).getEventId().equals(eventId)) {
+        if (!commentRepository.findByIdIs(commentId).getEvent().getId().equals(eventId)) {
             throw new ForbiddenHandler("Incorrect comment and event ID's.");
         }
         commentRepository.delete(commentRepository.findByIdAndEventId(commentId, eventId));

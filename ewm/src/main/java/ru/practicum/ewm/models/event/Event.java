@@ -11,6 +11,7 @@ import ru.practicum.ewm.models.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,10 +35,6 @@ public class Event implements Comparable<Event> {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Transient
-    @Formula(value = "SELECT COUNT(*) FROM requests WHERE requests.event_id = events.id AND requests.status = 'CONFIRMED'")
-    private int confirmedRequests;
-
     @Column(name = "created_on")
     private LocalDateTime createdOn;
 
@@ -52,8 +49,8 @@ public class Event implements Comparable<Event> {
     @JoinColumn(name = "initiator", nullable = false)
     private User initiator;
 
-    @Convert(converter = LocationConverter.class)
     @Column(name = "location")
+    @Convert(converter = LocationConverter.class)
     private Location location;
 
     @Column(name = "paid", nullable = false)
@@ -79,10 +76,6 @@ public class Event implements Comparable<Event> {
 
     @Column(name = "views")
     private Long views;
-
-    @Transient
-    @Formula(value = "SELECT * FROM comments WHERE comments.event_id = id")
-    private List<Comment> comments;
 
     @Override
     public boolean equals(Object o) {

@@ -8,6 +8,8 @@ import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.models.user.User;
 import ru.practicum.ewm.models.user.UserShortDto;
 import ru.practicum.ewm.repositories.CategoryRepository;
+import ru.practicum.ewm.repositories.CommentRepository;
+import ru.practicum.ewm.repositories.RequestRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,19 +20,24 @@ public class EventMapper {
     private final ModelMapper modelMapper;
     private final CommentMapper commentMapper;
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
+    private final RequestRepository requestRepository;
 
     @Autowired
-    public EventMapper(ModelMapper modelMapper, CommentMapper commentMapper, CategoryRepository categoryRepository) {
+    public EventMapper(ModelMapper modelMapper, CommentMapper commentMapper, CategoryRepository categoryRepository, CommentRepository commentRepository, RequestRepository requestRepository) {
         this.modelMapper = modelMapper;
         this.commentMapper = commentMapper;
         this.categoryRepository = categoryRepository;
+        this.commentRepository = commentRepository;
+        this.requestRepository = requestRepository;
     }
 
     public EventFullDto entityToFullDto(Event event) {
         EventFullDto newEvenFullDto = modelMapper.map(event, EventFullDto.class);
         newEvenFullDto.setLocation(event.getLocation());
         newEvenFullDto.setInitiator(modelMapper.map(event.getInitiator(), UserShortDto.class));
-        newEvenFullDto.setComments(event.getComments());
+        newEvenFullDto.setComments(commentRepository.findByEventId(event.getId()).stream()
+                .map(commentMapper::entityToDto).collect(Collectors.toList()));
         return newEvenFullDto;
     }
 
@@ -42,8 +49,8 @@ public class EventMapper {
 
     public EventShortDto entityToShort(Event event) {
         EventShortDto eventShortDto = modelMapper.map(event, EventShortDto.class);
-        if (event.getComments() != null) {
-            List<CommentDto> commentDto = event.getComments().stream()
+        if (commentRepository.findByEventId(event.getId()).size() > 0) {
+            List<CommentDto> commentDto = commentRepository.findByEventId(event.getId()).stream()
                     .map(commentMapper::entityToDto)
                     .collect(Collectors.toList());
             eventShortDto.setComments(commentDto);
