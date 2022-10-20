@@ -2,7 +2,10 @@ package ru.practicum.ewm.general.reg.events;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.models.comment.CommentDto;
+import ru.practicum.ewm.models.comment.CommentShortDto;
 import ru.practicum.ewm.models.event.EventFullDto;
 import ru.practicum.ewm.models.event.EventShortDto;
 import ru.practicum.ewm.models.event.NewEventDto;
@@ -67,5 +70,25 @@ public class RegEventController {
     public RequestDto rejectEventRequest(@PathVariable Long userId, @PathVariable Long eventId, @PathVariable Long reqId) {
         log.info("Reject event request with ID: {}, event ID: {}", reqId, eventId);
         return regEventService.rejectEventRequest(userId, eventId, reqId);
+    }
+
+    @PostMapping("/{userId}/events/{eventId}/comments")
+    public CommentDto addComment(@PathVariable Long userId, @PathVariable Long eventId, @Valid @RequestBody CommentShortDto commentShortDto) {
+        log.info("Add new comment to event with ID: {}", eventId);
+        return regEventService.addComment(userId, eventId, commentShortDto);
+    }
+
+    @PatchMapping("/{userId}/events/{eventId}/comments/{commentId}")
+    public CommentDto editComment(@PathVariable Long userId, @PathVariable Long eventId, @PathVariable Long commentId,
+                                  @Valid @RequestBody CommentShortDto commentShortDto) {
+        log.info("Edit comment.");
+        return regEventService.editComment(userId, eventId, commentId, commentShortDto);
+    }
+
+    @DeleteMapping("/{userId}/events/{eventId}/comments/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteComment(@PathVariable Long userId, @PathVariable Long eventId, @PathVariable Long commentId) {
+        log.info("Delete comment with ID: {}, by user with ID: {}", commentId, userId);
+        regEventService.deleteComment(userId, eventId, commentId);
     }
 }
