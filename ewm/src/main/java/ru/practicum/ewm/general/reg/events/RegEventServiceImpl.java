@@ -6,17 +6,12 @@ import ru.practicum.ewm.exceptions.BadRequestHandler;
 import ru.practicum.ewm.exceptions.ConflictHandler;
 import ru.practicum.ewm.exceptions.ForbiddenHandler;
 import ru.practicum.ewm.exceptions.NotFoundHandler;
-import ru.practicum.ewm.mapper.CommentMapper;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.mapper.RequestMapper;
-import ru.practicum.ewm.models.comment.Comment;
-import ru.practicum.ewm.models.comment.CommentDto;
-import ru.practicum.ewm.models.comment.CommentShortDto;
 import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.models.request.Request;
 import ru.practicum.ewm.models.request.RequestDto;
 import ru.practicum.ewm.models.request.RequestStatus;
-import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 import ru.practicum.ewm.repositories.RequestRepository;
 import ru.practicum.ewm.repositories.UserRepository;
@@ -33,8 +28,6 @@ public class RegEventServiceImpl implements RegEventService {
     private final RequestRepository requestRepository;
     private final EventMapper eventMapper;
     private final RequestMapper requestMapper;
-    private final CommentMapper commentMapper;
-    private final CommentRepository commentRepository;
 
     private void checkUser(Long userId) {
         if (userId == null) {
@@ -176,37 +169,5 @@ public class RegEventServiceImpl implements RegEventService {
         requestRepository.save(request);
 
         return requestMapper.entityToDto(requestRepository.findByIdIs(reqId));
-    }
-
-    @Override
-    public CommentDto addComment(Long userId, Long eventId, CommentShortDto commentShortDto) {
-        checkUser(userId);
-        checkEvent(eventId);
-
-        return commentMapper.entityToDto(commentRepository.save(
-                commentMapper.shortToEntity(userRepository.findByIdIs(userId).getName(),
-                        eventRepository.findByIdIs(eventId), commentShortDto)));
-    }
-
-    @Override
-    public CommentDto editComment(Long userId, Long eventId, Long commentId, CommentShortDto commentShortDto) {
-        checkUser(userId);
-        checkEvent(eventId);
-        if (!commentRepository.findByIdIs(commentId).getAuthorName().equals(userRepository.findByIdIs(userId).getName())) {
-            throw new ForbiddenHandler("Comment can be changed only by owner.");
-        }
-        Comment comment = commentRepository.findByIdIs(commentId);
-        comment.setText(commentShortDto.getText());
-        return commentMapper.entityToDto(commentRepository.save(comment));
-    }
-
-    @Override
-    public void deleteComment(Long userId, Long eventId, Long commentId) {
-        checkUser(userId);
-        checkEvent(eventId);
-        if (!commentRepository.findByIdIs(commentId).getAuthorName().equals(userRepository.findByIdIs(userId).getName())) {
-            throw new ForbiddenHandler("Comment can be changed only by owner.");
-        }
-        commentRepository.delete(commentRepository.findByIdIs(commentId));
     }
 }

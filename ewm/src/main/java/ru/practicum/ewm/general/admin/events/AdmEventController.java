@@ -2,10 +2,7 @@ package ru.practicum.ewm.general.admin.events;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.ewm.models.comment.CommentDto;
-import ru.practicum.ewm.models.comment.CommentShortDto;
 import ru.practicum.ewm.models.event.AdminUpdateEventRequest;
 import ru.practicum.ewm.models.event.EventFullDto;
 
@@ -57,19 +54,5 @@ public class AdmEventController {
     public EventFullDto rejectEvent(@PathVariable Long eventId) {
         log.info("Reject publish event with ID: {}", eventId);
         return admEventService.rejectEvent(eventId);
-    }
-
-    @PatchMapping("/{eventId}/comments/{commentId}")
-    public CommentDto editComment(@PathVariable Long eventId, @PathVariable Long commentId,
-                                  @Valid @RequestBody CommentShortDto commentShortDto) {
-        log.info("Edit comment with ID: {}, from event with ID: {}", commentId, eventId);
-        return admEventService.editComment(eventId, commentId, commentShortDto);
-    }
-
-    @DeleteMapping("/{eventId}/comments/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteComment(@PathVariable Long eventId, @PathVariable Long commentId) {
-        log.info("Admin delete comment from event {} with ID: {}", eventId, commentId);
-        admEventService.deleteComment(eventId, commentId);
     }
 }

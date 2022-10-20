@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import ru.practicum.ewm.mapper.CommentMapper;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.comment.CommentShortDto;
@@ -14,7 +13,6 @@ import ru.practicum.ewm.models.event.Event;
 import ru.practicum.ewm.models.location.Location;
 import ru.practicum.ewm.models.user.User;
 import ru.practicum.ewm.repositories.CategoryRepository;
-import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 import ru.practicum.ewm.repositories.UserRepository;
 

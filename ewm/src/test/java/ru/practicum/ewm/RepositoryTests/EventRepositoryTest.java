@@ -13,7 +13,6 @@ import ru.practicum.ewm.models.event.EventStates;
 import ru.practicum.ewm.models.location.Location;
 import ru.practicum.ewm.models.user.User;
 import ru.practicum.ewm.repositories.CategoryRepository;
-import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 import ru.practicum.ewm.repositories.UserRepository;
 
