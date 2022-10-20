@@ -1,7 +1,5 @@
 package ru.practicum.ewm.general.reg.events;
 
-import ru.practicum.ewm.models.comment.CommentDto;
-import ru.practicum.ewm.models.comment.CommentShortDto;
 import ru.practicum.ewm.models.event.EventFullDto;
 import ru.practicum.ewm.models.event.EventShortDto;
 import ru.practicum.ewm.models.event.NewEventDto;
@@ -26,10 +24,4 @@ public interface RegEventService {
     RequestDto confirmEventRequest(Long userId, Long eventId, Long reqId);
 
     RequestDto rejectEventRequest(Long userId, Long eventId, Long reqId);
-
-    CommentDto addComment(Long userId, Long eventId, CommentShortDto commentShortDto);
-
-    CommentDto editComment(Long userId, Long eventId, Long commentId, CommentShortDto commentShortDto);
-
-    void deleteComment(Long userId, Long eventId, Long commentId);
 }
