@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.practicum.ewm.general.admin.events.AdmEventServiceImpl;
+import ru.practicum.ewm.mapper.CommentMapper;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.models.category.Category;
 import ru.practicum.ewm.models.event.AdminUpdateEventRequest;
@@ -15,6 +16,7 @@ import ru.practicum.ewm.models.event.EventFullDto;
 import ru.practicum.ewm.models.location.Location;
 import ru.practicum.ewm.models.user.User;
 import ru.practicum.ewm.models.user.UserShortDto;
+import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.EventRepository;
 
 import javax.persistence.EntityManager;

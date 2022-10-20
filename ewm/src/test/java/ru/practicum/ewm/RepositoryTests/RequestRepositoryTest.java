@@ -14,10 +14,7 @@ import ru.practicum.ewm.models.location.Location;
 import ru.practicum.ewm.models.request.Request;
 import ru.practicum.ewm.models.request.RequestStatus;
 import ru.practicum.ewm.models.user.User;
-import ru.practicum.ewm.repositories.CategoryRepository;
-import ru.practicum.ewm.repositories.EventRepository;
-import ru.practicum.ewm.repositories.RequestRepository;
-import ru.practicum.ewm.repositories.UserRepository;
+import ru.practicum.ewm.repositories.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;

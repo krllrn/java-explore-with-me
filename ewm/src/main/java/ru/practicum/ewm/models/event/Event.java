@@ -2,13 +2,17 @@ package ru.practicum.ewm.models.event;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Formula;
 import ru.practicum.ewm.models.category.Category;
+import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.location.Location;
 import ru.practicum.ewm.models.location.LocationConverter;
 import ru.practicum.ewm.models.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter

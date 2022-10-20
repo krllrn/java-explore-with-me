@@ -8,6 +8,7 @@ import ru.practicum.ewm.models.event.*;
 import ru.practicum.ewm.models.user.User;
 import ru.practicum.ewm.models.user.UserShortDto;
 import ru.practicum.ewm.repositories.CategoryRepository;
+import ru.practicum.ewm.repositories.CommentRepository;
 import ru.practicum.ewm.repositories.RequestRepository;
 
 import java.time.LocalDateTime;
