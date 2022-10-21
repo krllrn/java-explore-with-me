@@ -2,6 +2,7 @@ package ru.practicum.ewm.models.comment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import ru.practicum.ewm.models.user.UserShortDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -32,7 +33,7 @@ public class CommentDto {
     @NotBlank
     @NotEmpty
     @NotNull
-    private String authorName;
+    private UserShortDto author;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LDT_PATTERN)
     private LocalDateTime created;

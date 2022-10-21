@@ -184,7 +184,7 @@ public class RegEventServiceImpl implements RegEventService {
         checkEvent(eventId);
 
         return commentMapper.entityToDto(commentRepository.save(
-                commentMapper.shortToEntity(userRepository.findByIdIs(userId).getName(),
+                commentMapper.shortToEntity(userRepository.findByIdIs(userId),
                         eventRepository.findByIdIs(eventId), commentShortDto)));
     }
 
@@ -192,10 +192,10 @@ public class RegEventServiceImpl implements RegEventService {
     public CommentDto editComment(Long userId, Long eventId, Long commentId, CommentShortDto commentShortDto) {
         checkUser(userId);
         checkEvent(eventId);
-        if (!commentRepository.findByIdIs(commentId).getAuthorName().equals(userRepository.findByIdIs(userId).getName())) {
+        Comment comment = commentRepository.findByIdIs(commentId).orElseThrow(() -> new NotFoundHandler("Comment not found."));
+        if (!comment.getAuthor().getId().equals(userId)) {
             throw new ForbiddenHandler("Comment can be changed only by owner.");
         }
-        Comment comment = commentRepository.findByIdIs(commentId);
         comment.setText(commentShortDto.getText());
         return commentMapper.entityToDto(commentRepository.save(comment));
     }
@@ -204,9 +204,10 @@ public class RegEventServiceImpl implements RegEventService {
     public void deleteComment(Long userId, Long eventId, Long commentId) {
         checkUser(userId);
         checkEvent(eventId);
-        if (!commentRepository.findByIdIs(commentId).getAuthorName().equals(userRepository.findByIdIs(userId).getName())) {
+        Comment comment = commentRepository.findByIdIs(commentId).orElseThrow(() -> new NotFoundHandler("Comment not found."));
+        if (!comment.getAuthor().getId().equals(userId)) {
             throw new ForbiddenHandler("Comment can be changed only by owner.");
         }
-        commentRepository.delete(commentRepository.findByIdIs(commentId));
+        commentRepository.delete(comment);
     }
 }

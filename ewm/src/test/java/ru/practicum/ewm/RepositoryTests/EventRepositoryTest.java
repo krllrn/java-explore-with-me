@@ -34,7 +34,7 @@ public class EventRepositoryTest {
     private final User user = new User("test@email.ru", "Name");
     private final Event event = new Event("Annotation", category, LocalDateTime.now(), "Description", LocalDateTime.now().plusDays(4),
             user, new Location(), false, 15, true, "Title");
-    private final Comment comment = new Comment(event, "Text", user.getName(), LocalDateTime.now());
+    private final Comment comment = new Comment(event, "Text", user, LocalDateTime.now());
 
     @Autowired
     public EventRepositoryTest(CommentRepository commentRepository, EventRepository eventRepository,

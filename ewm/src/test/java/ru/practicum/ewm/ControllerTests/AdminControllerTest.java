@@ -73,7 +73,8 @@ public class AdminControllerTest {
     private final AdminUpdateEventRequest adminUpdateEventRequest = new AdminUpdateEventRequest("Annotation", 1L, "Description",
             LocalDateTime.now().plusDays(1), new Location(), false, 10, true, "Title");
 
-    private final CommentDto commentDto = new CommentDto(1L, 2L, "Comment", "Troll", LocalDateTime.now());
+    private final CommentDto commentDto = new CommentDto(1L, 2L, "Comment", new UserShortDto(3L, "Troll"),
+            LocalDateTime.now());
     private final CommentShortDto commentShortDto = new CommentShortDto("ShortComment");
 
     private final UserDto userDto = new UserDto("new@email.ru", 1L, "Troll");
@@ -258,7 +259,6 @@ public class AdminControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.authorName", is(commentDto.getAuthorName())))
                 .andExpect(jsonPath("$.text", is(commentDto.getText())));
     }
 

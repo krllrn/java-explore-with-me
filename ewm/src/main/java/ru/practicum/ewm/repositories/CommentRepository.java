@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.ewm.models.comment.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Comment findByIdIs(Long commentId);
+    Optional<Comment> findByIdIs(Long commentId);
 
     @Query(value = "select * from comments where id = ?1 and event_id = ?2", nativeQuery = true)
     Comment findByIdAndEventId(Long commentId, Long eventId);
