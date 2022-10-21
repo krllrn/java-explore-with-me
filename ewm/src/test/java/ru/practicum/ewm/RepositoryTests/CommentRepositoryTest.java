@@ -51,12 +51,12 @@ public class CommentRepositoryTest {
         categoryRepository.save(category);
         userRepository.save(user);
         eventRepository.save(event);
-        Comment comment = commentMapper.shortToEntity("Troll", event, commentDto);
+        Comment comment = commentMapper.shortToEntity(user, event, commentDto);
         commentRepository.save(comment);
 
-        Comment founded = commentRepository.findByIdIs(comment.getId());
+        Comment founded = commentRepository.findByIdIs(comment.getId()).get();
 
-        Assertions.assertEquals(comment.getAuthorName(), founded.getAuthorName());
+        Assertions.assertEquals(comment.getAuthor(), founded.getAuthor());
         Assertions.assertEquals(comment.getText(), founded.getText());
     }
 }

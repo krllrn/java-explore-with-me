@@ -3,7 +3,6 @@ package ru.practicum.ewm.models.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.ewm.models.category.Category;
-import ru.practicum.ewm.models.comment.Comment;
 import ru.practicum.ewm.models.comment.CommentDto;
 import ru.practicum.ewm.models.location.Location;
 import ru.practicum.ewm.models.user.UserShortDto;

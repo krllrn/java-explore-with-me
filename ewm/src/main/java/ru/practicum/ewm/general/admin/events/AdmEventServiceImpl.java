@@ -143,13 +143,10 @@ public class AdmEventServiceImpl implements AdmEventService {
         if (commentId == null) {
             throw new BadRequestHandler("Comment ID can't be NULL.");
         }
-        if (commentRepository.findByIdIs(commentId) == null) {
-            throw new NotFoundHandler("Comment not found.");
-        }
-        if (!commentRepository.findByIdIs(commentId).getEvent().getId().equals(eventId)) {
+        Comment comment = commentRepository.findByIdIs(commentId).orElseThrow(() -> new NotFoundHandler("Comment not found."));
+        if (!comment.getEvent().getId().equals(eventId)) {
             throw new ForbiddenHandler("Incorrect comment and event ID's.");
         }
-        Comment comment = commentRepository.findByIdIs(commentId);
         comment.setText(commentShortDto.getText());
         return commentMapper.entityToDto(commentRepository.save(comment));
     }
@@ -160,10 +157,8 @@ public class AdmEventServiceImpl implements AdmEventService {
         if (commentId == null) {
             throw new BadRequestHandler("Comment ID can't be NULL.");
         }
-        if (commentRepository.findByIdIs(commentId) == null) {
-            throw new NotFoundHandler("Comment not found.");
-        }
-        if (!commentRepository.findByIdIs(commentId).getEvent().getId().equals(eventId)) {
+        Comment comment = commentRepository.findByIdIs(commentId).orElseThrow(() -> new NotFoundHandler("Comment not found."));
+        if (!comment.getEvent().getId().equals(eventId)) {
             throw new ForbiddenHandler("Incorrect comment and event ID's.");
         }
         commentRepository.delete(commentRepository.findByIdAndEventId(commentId, eventId));

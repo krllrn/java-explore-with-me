@@ -57,7 +57,7 @@ public class RegControllerTest {
     private final RequestDto requestDto = new RequestDto(LocalDateTime.now().plusDays(1), 1L, 2L, 5L, RequestStatus.PENDING);
 
     private final CommentShortDto commentShortDto = new CommentShortDto("Comment");
-    private final CommentDto commentDto = new CommentDto(1L, 5L, "Comment", "Troll", LocalDateTime.now());
+    private final CommentDto commentDto = new CommentDto(1L, 5L, "Comment", new UserShortDto(3L, "Troll"), LocalDateTime.now());
 
     @Test
     public void testGetCurrentUserEvents() throws Exception {
@@ -189,8 +189,7 @@ public class RegControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.text", is(commentDto.getText())))
-                .andExpect(jsonPath("$.authorName", is(commentDto.getAuthorName())));
+                .andExpect(jsonPath("$.text", is(commentDto.getText())));
     }
 
     @Test
@@ -204,8 +203,7 @@ public class RegControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.text", is(commentDto.getText())))
-                .andExpect(jsonPath("$.authorName", is(commentDto.getAuthorName())));
+                .andExpect(jsonPath("$.text", is(commentDto.getText())));
     }
 
     @Test

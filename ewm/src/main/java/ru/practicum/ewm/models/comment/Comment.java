@@ -2,6 +2,7 @@ package ru.practicum.ewm.models.comment;
 
 import lombok.*;
 import ru.practicum.ewm.models.event.Event;
+import ru.practicum.ewm.models.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,16 +26,17 @@ public class Comment {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @Column(name = "author_name")
-    private String authorName;
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private User author;
 
     @Column(name = "created")
     private LocalDateTime created;
 
-    public Comment(Event event, String text, String authorName, LocalDateTime created) {
+    public Comment(Event event, String text, User author, LocalDateTime created) {
         this.event = event;
         this.text = text;
-        this.authorName = authorName;
+        this.author = author;
         this.created = created;
     }
 }
